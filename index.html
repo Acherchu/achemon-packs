@@ -617,11 +617,11 @@ function boxHTML(p) {
     <div class="pbody front foil">
       <div class="sticker">
         ${p.art ? p.art(u) : ''}
-        <div class="title-strip"><b>${esc(p.title.toUpperCase())}</b><span>REAL CARDS · No. ${esc(p.number)}</span></div>
+        <div class="title-strip"><b>${esc(p.title.toUpperCase())}</b><span>PACK · No. ${esc(p.number)}</span></div>
         <div class="corner"></div>
       </div>
       <div class="badge">REAL<br>CARDS</div>
-      <div class="print">${p.cardCount} REAL CARDS</div>
+      <div class="print">${p.cardCount} CARDS</div>
     </div>
     <div class="pbody back foil">
       ${p.pulls && p.pulls.length ? `
