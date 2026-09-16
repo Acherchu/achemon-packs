@@ -1,0 +1,997 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ache-mon Packs</title>
+<meta name="description" content="Handmade fan-made booster packs, filled and crimp-sealed by hand.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%2311121a'/><circle cx='16' cy='16' r='8' fill='none' stroke='%23f5c542' stroke-width='3.5'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Outfit:wght@400;600;800&family=Permanent+Marker&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme: light;
+  --bg:#f3f4f8; --bg2:#ffffff; --panel:#ffffff; --line:#e1e3eb;
+  --text:#1b1c22; --muted:#5b5e6d;
+  --red:#e3350d; --red-dark:#a92709; --blue:#2a75bb; --blue-dark:#1d4f86; --yellow:#ffcb05; --black:#1b1c22;
+  --ring:#f5c542; --ring-soft:rgba(245,197,66,.16); --eye:#e0303b;
+  --w:220px; --h:360px; --d:14px; --c:30px;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+html{background:var(--bg)}
+body{
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='none' stroke='%231b1c22' stroke-opacity='.035' stroke-width='4'%3E%3Ccircle cx='60' cy='60' r='34'/%3E%3Cpath d='M26 60h22M72 60h22'/%3E%3Ccircle cx='60' cy='60' r='10'/%3E%3C/g%3E%3C/svg%3E") 0 0/120px 120px, var(--bg);
+  color:var(--text); font-family:Outfit, system-ui, sans-serif; line-height:1.5;
+  min-height:100vh; overflow-x:hidden;
+}
+button{font:inherit;color:inherit;cursor:pointer}
+a{color:var(--blue)}
+
+.wrap{position:relative;z-index:1;max-width:1120px;margin:0 auto;padding:0 20px}
+
+/* header */
+.topbar{position:relative;z-index:5;background:var(--red);border-bottom:7px solid var(--black);margin-bottom:34px}
+.topbar::after{content:"";position:absolute;left:50%;bottom:-21px;width:36px;height:36px;margin-left:-18px;border-radius:50%;background:#fff;border:7px solid var(--black);box-shadow:inset 0 0 0 4px #fff, inset 0 0 0 6px #d6d8e0}
+.bar{display:flex;align-items:center;justify-content:space-between;padding-top:14px;padding-bottom:14px}
+.brand{display:flex;align-items:center;gap:10px;font-family:Bungee, Outfit, sans-serif;font-size:20px;letter-spacing:.5px;text-decoration:none;color:#fff;text-shadow:0 2px 0 var(--red-dark)}
+.ball{position:relative;flex:none;width:28px;height:28px;border-radius:50%;border:3px solid var(--black);background:linear-gradient(var(--red) 0 42%, var(--black) 42% 58%, #fff 58%)}
+.ball::after{content:"";position:absolute;left:50%;top:50%;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:#fff;border:2.5px solid var(--black);box-sizing:border-box}
+.topbar .ball{background:linear-gradient(#fff 0 42%, var(--black) 42% 58%, #fff 58%)}
+.cart-btn{display:flex;align-items:center;gap:8px;background:#fff;color:var(--text);border:0;border-radius:999px;padding:8px 16px;font-weight:700;box-shadow:0 3px 0 var(--red-dark)}
+.cart-btn:hover{transform:translateY(-1px)}
+.count{min-width:22px;height:22px;border-radius:11px;background:var(--yellow);color:var(--black);font-size:13px;font-weight:800;display:grid;place-items:center;padding:0 6px}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.05fr 1fr;gap:40px;align-items:center;padding:20px 0 50px}
+.stage-col{display:flex;flex-direction:column;align-items:center;gap:14px}
+.stage-slot{position:relative;width:100%;height:500px}
+.stage{position:absolute;inset:0;perspective:1100px;display:grid;place-items:center;touch-action:none;cursor:grab;user-select:none}
+.stage:active{cursor:grabbing}
+.stage::before{content:"";position:absolute;width:380px;height:380px;border-radius:50%;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpath d='M10 100a90 90 0 0 1 180 0h-58a32 32 0 0 0-64 0z' fill='%23e3350d' fill-opacity='.10'/%3E%3Cg fill='none' stroke='%231b1c22' stroke-opacity='.08' stroke-width='8'%3E%3Ccircle cx='100' cy='100' r='90'/%3E%3Cpath d='M10 100h58M132 100h58'/%3E%3Ccircle cx='100' cy='100' r='26'/%3E%3C/g%3E%3C/svg%3E") center/contain no-repeat}
+.shadow{position:absolute;bottom:52px;width:240px;height:36px;border-radius:50%;background:radial-gradient(closest-side, rgba(0,0,0,.28), transparent);animation:shadow 5s ease-in-out infinite}
+.floater{animation:float 5s ease-in-out infinite;transform-style:preserve-3d}
+@keyframes float{0%,100%{transform:translateY(-6px)}50%{transform:translateY(8px)}}
+@keyframes shadow{0%,100%{transform:scale(.9);opacity:.8}50%{transform:scale(1);opacity:1}}
+.box{position:relative;width:0;height:0;transform-style:preserve-3d;transform:rotateX(-12deg) rotateY(-28deg);--sheen:35%}
+.box.ease{transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+/* dark Umbreon foil: black with a gold sheen, purple/teal glow and tiny sparkles */
+.foil{background:
+  linear-gradient(115deg, transparent calc(var(--sheen) - 22%), rgba(255,226,140,.38) var(--sheen), transparent calc(var(--sheen) + 22%)),
+  radial-gradient(circle, rgba(255,228,150,.55) 0 .8px, transparent 1.3px) 0 0 / 23px 29px,
+  radial-gradient(circle, rgba(160,230,255,.4) 0 .7px, transparent 1.2px) 11px 14px / 31px 37px,
+  radial-gradient(circle at 18% 14%, rgba(130,90,230,.38), transparent 46%),
+  radial-gradient(circle at 86% 84%, rgba(60,190,215,.26), transparent 46%),
+  linear-gradient(160deg, #1d1f2a, #30354a 30%, #14151d 55%, #292d3d 78%, #0f1016)}
+.pbody,.side,.edge,.crimp{position:absolute;left:0;top:0}
+/* the puffy middle of the pack (front and back) */
+.pbody{width:var(--w);height:calc(var(--h) - 2 * var(--c));margin:calc((var(--h) - 2 * var(--c)) / -2) 0 0 calc(var(--w) / -2);backface-visibility:hidden;border-radius:2px;overflow:hidden}
+/* Umbreon's glowing gold rings printed on the foil */
+.pbody::before{content:"";position:absolute;border-radius:50%;border:10px solid rgba(246,200,58,.9);box-shadow:0 0 16px rgba(246,200,58,.55), inset 0 0 12px rgba(246,200,58,.4);pointer-events:none}
+.pbody.front::before{width:150px;height:150px;left:-96px;top:-92px}
+.pbody.back::before{width:120px;height:120px;right:-58px;top:-54px}
+.pbody.front{transform:translateZ(calc(var(--d) / 2))}
+.pbody.back{transform:rotateY(180deg) translateZ(calc(var(--d) / 2))}
+.pbody::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(rgba(0,0,0,.24), transparent 8%, transparent 92%, rgba(0,0,0,.24)), linear-gradient(90deg, rgba(0,0,0,.16), transparent 6%, transparent 94%, rgba(0,0,0,.16))}
+.side{width:var(--d);height:calc(var(--h) - 2 * var(--c));margin:calc((var(--h) - 2 * var(--c)) / -2) 0 0 calc(var(--d) / -2);backface-visibility:hidden;filter:brightness(.78)}
+.side.right{transform:rotateY(90deg) translateZ(calc(var(--w) / 2))}
+.side.left{transform:rotateY(-90deg) translateZ(calc(var(--w) / 2))}
+.edge{width:var(--w);height:var(--d);margin:calc(var(--d) / -2) 0 0 calc(var(--w) / -2);backface-visibility:hidden;filter:brightness(.9)}
+.edge.top{transform:rotateX(90deg) translateZ(calc((var(--h) - 2 * var(--c)) / 2))}
+.edge.bottom{transform:rotateX(-90deg) translateZ(calc((var(--h) - 2 * var(--c)) / 2))}
+/* flat crimped seals at the top and bottom, with a jagged cut edge */
+.crimp{width:var(--w);height:calc(var(--c) + 2px);margin-left:calc(var(--w) / -2)}
+.crimp::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg, rgba(246,200,58,.28) 0 1.5px, rgba(0,0,0,.3) 1.5px 3px)}
+.crimp.top{margin-top:calc(var(--h) / -2);
+  -webkit-mask:conic-gradient(from 135deg at top, #0000, #000 1deg 89deg, #0000 90deg) top/8px 4px repeat-x, linear-gradient(#000 0 0) bottom/100% calc(100% - 4px) no-repeat;
+  mask:conic-gradient(from 135deg at top, #0000, #000 1deg 89deg, #0000 90deg) top/8px 4px repeat-x, linear-gradient(#000 0 0) bottom/100% calc(100% - 4px) no-repeat}
+.crimp.top::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:rgba(246,200,58,.75)}
+.crimp.bottom{margin-top:calc(var(--h) / 2 - var(--c) - 2px);
+  -webkit-mask:conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) bottom/8px 4px repeat-x, linear-gradient(#000 0 0) top/100% calc(100% - 4px) no-repeat;
+  mask:conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) bottom/8px 4px repeat-x, linear-gradient(#000 0 0) top/100% calc(100% - 4px) no-repeat}
+.crimp.bottom::after{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:rgba(246,200,58,.75)}
+
+/* front: the art sticker */
+.sticker{position:absolute;left:14px;right:14px;top:14px;bottom:40px;border-radius:10px;overflow:hidden;background:#0c0b17;
+  box-shadow:0 0 0 2px #f6c83a, 0 0 14px rgba(246,200,58,.45), 0 3px 8px rgba(0,0,0,.5);transform:rotate(-.6deg)}
+.sticker svg{display:block;width:100%;height:100%}
+.sticker::after{content:"";position:absolute;inset:0;background:linear-gradient(125deg, rgba(255,255,255,.16) 0%, transparent 30%, transparent 70%, rgba(255,255,255,.06) 100%);pointer-events:none}
+.sticker .corner{position:absolute;right:0;bottom:0;width:20px;height:20px;background:linear-gradient(135deg, transparent 50%, #e9dcb0 50%);box-shadow:-2px -2px 4px rgba(0,0,0,.3)}
+.title-strip{position:absolute;left:0;right:0;bottom:0;padding:22px 10px 8px;text-align:center;background:linear-gradient(transparent, rgba(5,4,12,.92) 55%)}
+.title-strip b{display:block;font-family:Bungee, Outfit, sans-serif;font-weight:400;font-size:28px;line-height:1;color:var(--ring);letter-spacing:1px;text-shadow:0 0 12px rgba(245,197,66,.55)}
+.title-strip span{display:block;white-space:nowrap;font-size:9px;letter-spacing:2.5px;color:#cfc9e8;margin-top:3px}
+.badge{position:absolute;right:4px;top:2px;width:52px;height:52px;border-radius:50%;background:#101117;border:5px solid #f6c83a;box-shadow:0 0 12px rgba(246,200,58,.6), 0 2px 5px rgba(0,0,0,.4);
+  display:grid;place-items:center;text-align:center;font-family:Bungee, Outfit, sans-serif;font-size:8.5px;line-height:1.05;color:#f6c83a;transform:rotate(12deg)}
+.print{position:absolute;left:0;right:0;bottom:12px;text-align:center;font-family:Bungee, Outfit, sans-serif;font-size:13px;letter-spacing:3px;color:#f6c83a;text-shadow:0 0 8px rgba(246,200,58,.6)}
+.marker{font-family:"Permanent Marker", "Comic Sans MS", cursive}
+
+/* back: a handwritten label */
+.label{position:absolute;left:14px;right:14px;top:18px;bottom:22px;background:rgba(14,15,21,.9);border:1.5px solid rgba(246,200,58,.8);border-radius:8px;padding:14px 16px;color:#f6c83a;transform:rotate(.8deg);box-shadow:0 0 12px rgba(246,200,58,.25), 0 2px 6px rgba(0,0,0,.4)}
+.label h4{margin:0 0 4px;font-weight:400;font-size:19px}
+.label ul{margin:0;padding:0;list-style:none;font-size:13px;line-height:1.35}
+.label ul li{margin-bottom:3px}
+.label ul li::before{content:"☐ "}
+/* back label with the cards you can pull, one row per rarity */
+.label.has-pulls{display:flex;flex-direction:column;gap:5px;padding:8px 10px;left:12px;right:12px;top:10px;bottom:10px}
+.pull{flex:1 1 0;min-height:0;display:flex;align-items:center;gap:6px}
+.pull + .pull{border-top:1.5px dashed rgba(246,200,58,.35);padding-top:5px}
+.pull h4{flex:none;width:70px;margin:0;font-size:11.5px;line-height:1.15;white-space:nowrap}
+.pull h4 .sym{display:block;font-size:15px;line-height:1}
+.pull h4 .odds{display:block;margin-top:2px;font-family:Bungee, Outfit, sans-serif;font-size:10.5px;letter-spacing:.5px;color:#fff3c4;text-shadow:0 0 6px rgba(246,200,58,.6)}
+.pull-cards{flex:1;align-self:stretch;min-height:0;display:flex;justify-content:center;gap:12px}
+.pull-cards img{display:block;height:100%;width:auto;aspect-ratio:63/88;object-fit:cover;border-radius:3px;background:#e4e6ed;box-shadow:0 2px 5px rgba(0,0,0,.3);cursor:zoom-in;-webkit-user-drag:none}
+.pull-cards img:nth-child(odd){transform:rotate(-3deg)}
+.pull-cards img:nth-child(even){transform:rotate(3deg)}
+.barcode{position:absolute;left:16px;bottom:14px;width:104px;height:40px;padding:0 0 11px}
+.barcode i{display:block;height:100%;background:repeating-linear-gradient(90deg,#f6c83a 0 2px,transparent 2px 3px,#f6c83a 3px 4px,transparent 4px 7px,#f6c83a 7px 10px,transparent 10px 11px)}
+.barcode small{position:absolute;left:0;right:0;bottom:0;font-size:8px;text-align:center;color:#f6c83a;letter-spacing:2px}
+.label .no{position:absolute;right:16px;bottom:16px;font-size:18px;transform:rotate(-6deg)}
+
+.view-btns{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.chip{background:#fff;border:2px solid var(--line);font-weight:600;border-radius:999px;padding:6px 14px;font-size:14px;color:var(--muted)}
+.chip:hover,.chip[aria-pressed=true]{color:var(--text);border-color:var(--blue)}
+.hint{font-size:13px;color:var(--muted);margin:0}
+
+/* product panel */
+.product .tag{display:inline-flex;gap:8px;align-items:center;font-size:13px;color:#fff;background:var(--blue);border:0;padding:4px 12px;border-radius:999px;font-weight:600}
+.logo-text{font-family:Bungee, Outfit, sans-serif;font-weight:400;color:var(--yellow);-webkit-text-stroke:2px var(--blue-dark);paint-order:stroke fill;text-shadow:3px 4px 0 var(--blue-dark);letter-spacing:1px}
+.product h1{font-size:clamp(40px,5.4vw,60px);line-height:1.02;margin:16px 0 8px}
+.product h1 em{font-style:normal}
+.price{font-size:34px;font-weight:800;margin:6px 0 12px}
+.price small{font-size:15px;font-weight:400;color:var(--muted);margin-left:6px}
+.desc{color:var(--muted);margin:0 0 20px;max-width:46ch}
+.contents{background:var(--panel);border:2px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:22px}
+.rates li::before{display:none}
+.rates .sym{width:14px;text-align:center;color:var(--blue)}
+.rates b{margin-left:auto;font-weight:800}
+.contents h2{font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin:0 0 8px;font-weight:600}
+.contents ul{margin:0;padding:0;list-style:none;display:grid;gap:6px}
+.contents li{display:flex;gap:10px;align-items:center}
+.contents li::before{content:"";flex:none;width:14px;height:14px;border-radius:50%;border:2px solid var(--black);background:linear-gradient(var(--red) 0 42%, var(--black) 42% 58%, #fff 58%)}
+.buy{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.qty{display:flex;align-items:center;background:var(--panel);border:2px solid var(--line);border-radius:12px;overflow:hidden}
+.qty button{background:none;border:0;width:44px;height:50px;font-size:22px}
+.qty button:hover{background:#eef0f5}
+.qty output{min-width:34px;text-align:center;font-weight:800;font-size:18px}
+.primary{background:var(--red);color:#fff;border:0;border-radius:12px;height:52px;padding:0 26px;font-weight:800;font-size:17px;box-shadow:0 4px 0 var(--red-dark);transition:transform .1s, box-shadow .1s}
+.primary:hover{transform:translateY(-1px);box-shadow:0 5px 0 var(--red-dark)}
+.primary:active{transform:translateY(3px);box-shadow:0 1px 0 var(--red-dark)}
+.primary:disabled{opacity:.5;transform:none;cursor:not-allowed}
+.added{font-size:14px;color:var(--blue);font-weight:600;min-height:21px;margin:10px 0 0}
+
+footer{border-top:1px solid var(--line);padding:22px 0 40px;color:var(--muted);font-size:13px}
+
+/* drawer + dialog */
+.scrim{position:fixed;inset:0;background:rgba(20,20,30,.45);backdrop-filter:blur(2px);z-index:20;opacity:0;pointer-events:none;transition:opacity .2s}
+.scrim.on{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;height:100%;width:min(400px,100%);background:var(--bg2);border-left:1px solid var(--line);z-index:21;transform:translateX(100%);transition:transform .25s ease;display:flex;flex-direction:column}
+.drawer.on{transform:none}
+.drawer-head{display:flex;justify-content:space-between;align-items:center;padding:18px 20px;background:var(--red);color:#fff;border-bottom:6px solid var(--black)}
+.drawer-head h2{margin:0;font-size:20px}
+.x{background:none;border:0;font-size:26px;line-height:1;color:#fff;padding:4px 8px}
+.drawer-body{flex:1;overflow:auto;padding:20px}
+.line-item{display:flex;gap:14px;align-items:center}
+.thumb{flex:none;width:58px;height:78px;border-radius:5px;position:relative;box-shadow:0 3px 8px rgba(0,0,0,.4)}
+.thumb::before{content:"";position:absolute;inset:9px 6px 16px;border-radius:3px;background:#0c0b17}
+.thumb::after{content:"";position:absolute;left:50%;top:22px;width:16px;height:16px;margin-left:-8px;border-radius:50%;border:3px solid var(--ring);box-sizing:border-box}
+.line-item .info{flex:1}
+.line-item .info b{display:block}
+.line-item .info span{color:var(--muted);font-size:14px}
+.qty.small button{width:34px;height:36px;font-size:18px}
+.qty.small output{min-width:26px;font-size:15px}
+.remove{background:none;border:0;color:var(--muted);font-size:13px;text-decoration:underline;padding:4px 0}
+.empty{color:var(--muted);text-align:center;padding:40px 0}
+.drawer-foot{border-top:1px solid var(--line);padding:18px 20px}
+.total{display:flex;justify-content:space-between;font-size:18px;margin-bottom:14px}
+.total b{font-size:22px}
+.drawer-foot .primary{width:100%}
+
+dialog{background:var(--bg2);color:var(--text);border:1px solid var(--line);border-radius:18px;padding:0;width:min(460px,calc(100% - 32px))}
+dialog::backdrop{background:rgba(20,20,30,.5)}
+.dlg{padding:24px}
+.dlg h2{margin:0 0 4px;font-size:22px}
+.dlg p.sub{margin:0 0 18px;color:var(--muted);font-size:14px}
+label{display:block;font-size:14px;font-weight:600;margin:12px 0 5px}
+input,textarea{width:100%;background:#f6f7fa;border:2px solid var(--line);border-radius:10px;color:var(--text);font:inherit;padding:10px 12px}
+input:focus,textarea:focus,button:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+textarea{min-height:70px;resize:vertical}
+.summary{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:14px;display:flex;justify-content:space-between}
+.dlg-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:20px}
+.ghost{background:none;border:1px solid var(--line);border-radius:12px;padding:0 18px;height:52px;font-weight:600}
+pre.order{white-space:pre-wrap;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px;font-size:13px;margin:12px 0 0}
+.err{color:#c62a0b;font-size:13px;min-height:18px;margin:6px 0 0}
+
+/* shop page */
+.page-head{padding:18px 0 26px}
+.page-head h1{font-size:clamp(34px,4.8vw,50px);line-height:1.05;margin:0 0 8px}
+.page-head p{margin:0;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:22px;padding-bottom:50px}
+.card{background:var(--panel);border:9px solid var(--yellow);border-radius:20px;box-shadow:0 8px 22px rgba(27,28,34,.12);overflow:hidden;text-decoration:none;color:var(--text);display:flex;flex-direction:column;transition:transform .2s, border-color .2s}
+.card:hover{transform:translateY(-4px) rotate(-.4deg)}
+.card-stage{height:300px;perspective:1000px;display:grid;place-items:center;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpath d='M10 100a90 90 0 0 1 180 0h-58a32 32 0 0 0-64 0z' fill='%23e3350d' fill-opacity='.10'/%3E%3Cg fill='none' stroke='%231b1c22' stroke-opacity='.08' stroke-width='8'%3E%3Ccircle cx='100' cy='100' r='90'/%3E%3Cpath d='M10 100h58M132 100h58'/%3E%3Ccircle cx='100' cy='100' r='26'/%3E%3C/g%3E%3C/svg%3E") center/78% no-repeat, linear-gradient(#e9ecf4, #f8f9fc);margin:10px 10px 0;border-radius:8px;border:2px solid #d9c27a;pointer-events:none}
+.card-stage .scaler{transform:scale(.7);transform-style:preserve-3d}
+.card .box{transform:rotateX(-10deg) rotateY(-26deg);transition:transform .7s cubic-bezier(.2,.8,.2,1)}
+.card:hover .box{--sheen:65%}
+.card:hover .box{transform:rotateX(-6deg) rotateY(-6deg)}
+.card-body{padding:16px 18px 18px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:flex-end;gap:12px}
+.card-body b{display:block;font-size:20px;font-weight:800}
+.card-body small{color:var(--muted);font-size:14px}
+.card-price{font-size:22px;font-weight:800;white-space:nowrap;color:var(--red)}
+.card-view{display:block;margin-top:4px;color:var(--blue);font-size:14px;font-weight:600}
+.crumb{display:inline-block;color:var(--muted);text-decoration:none;font-weight:600;padding:4px 0}
+.crumb:hover{color:var(--text)}
+.detail-top{padding-top:4px}
+
+@media (max-width: 860px){
+  .hero{grid-template-columns:1fr;gap:10px;padding-top:0}
+  .stage-slot{height:420px}
+}
+@media (max-width: 480px){
+  :root{--w:180px;--h:294px;--d:12px;--c:25px}
+  .wrap{padding:0 16px}
+  .stage-slot{height:360px}
+  .stage::before{width:280px;height:280px}
+  .shadow{bottom:40px;width:190px}
+  .title-strip b{font-size:22px}
+  .sticker{left:11px;right:11px;top:11px;bottom:34px}
+  .badge{width:42px;height:42px;font-size:7.5px}
+  .print{font-size:11px;bottom:10px}
+  .label{left:10px;right:10px;top:12px;bottom:16px;padding:10px 12px}
+  .label.has-pulls{padding:6px 8px;gap:4px;left:9px;right:9px;top:8px;bottom:8px}
+  .pull + .pull{padding-top:4px}
+  .label .pull h4{font-size:9px;width:54px}
+  .label .pull h4 .sym{font-size:12px}
+  .label .pull h4 .odds{font-size:8.5px;margin-top:1px}
+  .pull-cards{gap:8px}
+  .label h4{font-size:15px}
+  .label ul{font-size:10.5px}
+  .barcode{width:84px;height:34px;left:12px;bottom:10px}
+  .brand{font-size:16px}
+  .topbar::after{display:none}
+  .topbar{margin-bottom:22px}
+}
+/* zooming into a card from the back of the pack */
+dialog.zoom{background:transparent;border:0;padding:0;width:auto;max-width:none;max-height:none;overflow:visible}
+dialog.zoom::backdrop{background:rgba(12,12,20,.82)}
+.zoom-wrap{display:flex;flex-direction:column;align-items:center;gap:14px}
+.zoom-card{display:block;width:min(400px, calc(100vw - 32px), calc((100vh - 150px) * 63 / 88));aspect-ratio:63/88;border-radius:4.5% / 3.2%;box-shadow:0 24px 60px rgba(0,0,0,.55);animation:zoomIn .38s cubic-bezier(.2,.8,.2,1)}
+@keyframes zoomIn{from{transform:scale(.35) rotate(-6deg);opacity:0}to{transform:none;opacity:1}}
+.zoom-bar{display:flex;align-items:center;gap:14px;color:#fff}
+.zoom-cap{text-align:center;min-width:180px}
+.zoom-cap b{display:block;font-size:17px}
+.zoom-cap span{font-size:14px;opacity:.85}
+.zoom-btn{flex:none;width:46px;height:46px;border-radius:50%;border:0;background:#fff;color:var(--black);font-size:22px;font-weight:800;box-shadow:0 3px 0 #b9bcc8}
+.zoom-btn:active{transform:translateY(2px);box-shadow:0 1px 0 #b9bcc8}
+.zoom-close{position:fixed;top:14px;right:14px}
+
+/* zooming into the pack */
+.stage .box{cursor:zoom-in}
+/* zoomed into the pack: the stage fills the screen and the pack grows */
+.zoomer{transform-style:preserve-3d;transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+.stage.zoomed{position:fixed;z-index:40;background:rgba(12,12,20,.86);animation:fadeIn .25s}
+.stage.zoomed .zoomer{transform:translate(var(--px, 0px), var(--py, 0px)) scale(var(--zoom, 1.8))}
+.stage.wheeling .zoomer{transition:transform .08s linear}
+.stage.zoomed::before,.stage.zoomed .shadow{display:none}
+.stage.zoomed .box{cursor:pointer}
+.stage.zoomed .pull-cards img{cursor:zoom-in}
+body.pack-zoomed{overflow:hidden}
+body.pack-zoomed .wrap{z-index:30}
+.stage-close,.stage-bar{display:none}
+.stage.zoomed .stage-close{display:block;position:absolute;top:14px;right:14px}
+.stage.zoomed .stage-bar{display:flex;position:absolute;left:50%;bottom:14px;transform:translateX(-50%);width:max-content;max-width:calc(100% - 24px);justify-content:center;align-items:center;gap:8px 10px;flex-wrap:wrap;padding:8px 14px;border-radius:18px;background:rgba(12,12,20,.78);color:#fff;font-size:14px;text-align:center;pointer-events:none}
+.stage-bar button{pointer-events:auto}
+.zoom-level{min-width:48px;font-weight:700}
+.stage-bar .zoom-btn{width:38px;height:38px;font-size:20px;line-height:1}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+@media (prefers-reduced-motion: reduce){
+  .floater,.shadow,.zoom-card,.stage.zoomed{animation:none}
+  .zoomer{transition:none}
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap bar">
+    <a class="brand" href="#/"><span class="ball"></span><span id="shopName">Ache-mon Packs</span></a>
+    <button class="cart-btn" id="openCart" aria-label="Open cart">Cart <span class="count" id="cartCount">0</span></button>
+  </div>
+</header>
+<div class="wrap">
+
+  <main id="app"></main>
+
+
+  <footer>
+    Every pack is filled and crimp-sealed by hand. This is a fan-made project. It isn't
+    connected to, or approved by, Nintendo, Game Freak, Creatures or The Pokémon Company.
+  </footer>
+</div>
+
+<!-- cart drawer -->
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-label="Cart" aria-hidden="true">
+  <div class="drawer-head"><h2>Your cart</h2><button class="x" id="closeCart" aria-label="Close cart">×</button></div>
+  <div class="drawer-body" id="cartBody"></div>
+  <div class="drawer-foot">
+    <div class="total"><span>Total</span><b id="cartTotal">$0.00</b></div>
+    <button class="primary" id="checkoutBtn">Send order request</button>
+  </div>
+</aside>
+
+<!-- zoom into a card you can pull -->
+<dialog id="zoom" class="zoom" aria-label="Card close-up">
+  <button class="zoom-btn zoom-close" id="zoomClose" aria-label="Close">×</button>
+  <div class="zoom-wrap">
+    <img class="zoom-card" id="zoomImg" alt="">
+    <div class="zoom-bar">
+      <button class="zoom-btn" id="zoomPrev" aria-label="Previous card">‹</button>
+      <div class="zoom-cap" id="zoomCap"></div>
+      <button class="zoom-btn" id="zoomNext" aria-label="Next card">›</button>
+    </div>
+  </div>
+</dialog>
+
+<!-- checkout -->
+<dialog id="checkout">
+  <form class="dlg" id="orderForm" method="dialog" novalidate>
+    <h2>Send order request</h2>
+    <p class="sub">You won't pay anything here. We'll get back to you about payment and pickup.</p>
+    <div class="summary"><span id="sumItems"></span><b id="sumTotal"></b></div>
+    <label for="oName">Your name</label>
+    <input id="oName" autocomplete="name" required>
+    <label for="oContact">How can we reach you?</label>
+    <input id="oContact" placeholder="Email, or a note about who you are" required>
+    <label for="oNote">Note (optional)</label>
+    <textarea id="oNote"></textarea>
+    <p class="err" id="oErr" aria-live="polite"></p>
+    <div class="dlg-actions">
+      <button type="button" class="ghost" id="cancelOrder">Cancel</button>
+      <button type="submit" class="primary">Send order</button>
+    </div>
+  </form>
+  <div class="dlg" id="orderDone" hidden>
+    <h2>Almost done! ☾</h2>
+    <p class="sub" id="doneMsg"></p>
+    <pre class="order" id="orderText"></pre>
+    <div class="dlg-actions">
+      <button type="button" class="ghost" id="copyOrder">Copy order</button>
+      <button type="button" class="primary" id="finishOrder">Done</button>
+    </div>
+  </div>
+</dialog>
+
+<script>
+/* ===================== Edit your shop here ===================== */
+const SHOP = {
+  name: 'Ache-mon Packs',
+  tagline: 'Handmade fan-made booster packs, each one filled and sealed by hand.',
+  // Orders get emailed here. Leave it empty and buyers get an order to copy and send you instead.
+  orderEmail: '',
+};
+
+// Every pack in the shop. To add one, copy a pack below and change it.
+// Set hidden: true to keep a pack off the shop until it's ready.
+const PRODUCTS = [
+  {
+    id: 'umbreon-001',
+    title: 'Umbreon',            // big word on the box and page
+    name: 'Umbreon Pack',
+    number: '001',
+    price: 9.00,
+    cardCount: 7,
+    accent: '#f5c542',           // glow color for this pack
+    description: 'A handmade booster pack for Umbreon fans. Each one is filled by hand and crimp-sealed in a shiny foil pack, just like the real thing.',
+    contents: ['7 cards', '1 Umbreon card, guaranteed', 'Crimp-sealed foil pack'],
+    // cards you can pull, shown on the back of the pack
+    pulls: [
+      { label: 'Commons', symbol: '●', odds: '75%', cards: [
+        { name: 'Umbreon', set: 'Prismatic Evolutions', number: '059/131', img: 'https://images.pokemontcg.io/sv8pt5/59.png' },
+        { name: 'Umbreon', set: 'Obsidian Flames', number: '130/197', img: 'https://images.pokemontcg.io/sv3/130.png' },
+      ]},
+      { label: 'Uncommons', symbol: '◆', odds: '20%', cards: [
+        { name: 'Umbreon V', set: 'Evolving Skies', number: '094/203', img: 'https://images.pokemontcg.io/swsh7/94.png' },
+        { name: 'Umbreon V', set: 'Black Star Promo', number: 'SWSH203', img: 'https://images.pokemontcg.io/swshp/SWSH203.png' },
+      ]},
+      { label: 'Rares', symbol: '★', odds: '4.9%', cards: [
+        { name: 'Umbreon', set: 'Lost Thunder', number: '120/214', img: 'https://images.pokemontcg.io/sm8/120.png' },
+        { name: 'Umbreon', set: 'Dark Explorers', number: '60/108', img: 'https://images.pokemontcg.io/bw5/60.png' },
+      ]},
+      { label: 'Legendaries', one: 'Legendary', symbol: '✪', odds: '0.1%', cards: [
+        { name: 'Umbreon V', set: 'Brilliant Stars Trainer Gallery', number: 'TG22/TG30', img: 'https://images.pokemontcg.io/swsh9tg/TG22.png' },
+        { name: 'Umbreon EX', set: 'Fates Collide', number: '119/124', img: 'https://images.pokemontcg.io/xy10/119.png' },
+      ]},
+    ],
+    maxPerOrder: 10,
+    hidden: false,
+    art: umbreonArt,
+  },
+];
+/* =============================================================== */
+
+// Sticker art for the Umbreon Pack: Umbreon pouncing through a starry night.
+// u = unique id prefix so several packs can share a page.
+function umbreonArt(u) {
+  // deterministic sparkles
+  let seed = 7;
+  const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  let stars = '';
+  for (let i = 0; i < 70; i++) {
+    const x = (rnd() * 200).toFixed(1), y = (rnd() * 230).toFixed(1), r = (0.3 + rnd() * 1.1).toFixed(2);
+    const c = rnd() < 0.55 ? '#ffe9a8' : (rnd() < 0.5 ? '#ffffff' : '#9fe7f5');
+    stars += `<circle cx="${x}" cy="${y}" r="${r}" fill="${c}" opacity="${(0.4 + rnd() * 0.6).toFixed(2)}"/>`;
+  }
+  let glints = '';
+  [[150, 150, 5], [30, 40, 4], [178, 98, 3.5], [112, 182, 3], [16, 150, 3]].forEach(([x, y, s]) => {
+    glints += `<path d="M${x} ${y - s} L${x + s * .22} ${y - s * .22} L${x + s} ${y} L${x + s * .22} ${y + s * .22} L${x} ${y + s} L${x - s * .22} ${y + s * .22} L${x - s} ${y} L${x - s * .22} ${y - s * .22} Z" fill="#fff6d0" filter="url(#${u}soft)"/>`;
+  });
+  return `
+  <svg viewBox="0 0 200 230" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Umbreon leaping through a starry night">
+    <defs>
+      <radialGradient id="${u}bg" cx=".42" cy=".42" r=".75">
+        <stop offset="0" stop-color="#3fb3c9"/><stop offset=".22" stop-color="#3b5aa8"/>
+        <stop offset=".5" stop-color="#3a2470"/><stop offset=".8" stop-color="#1c1240"/><stop offset="1" stop-color="#0b0820"/>
+      </radialGradient>
+      <linearGradient id="${u}fur" x1=".1" y1="0" x2=".7" y2="1">
+        <stop offset="0" stop-color="#4a5063"/><stop offset=".35" stop-color="#23262f"/><stop offset="1" stop-color="#0b0c10"/>
+      </linearGradient>
+      <linearGradient id="${u}furDark" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#262a34"/><stop offset="1" stop-color="#07080b"/>
+      </linearGradient>
+      <radialGradient id="${u}eye" cx=".45" cy=".45" r=".6">
+        <stop offset="0" stop-color="#ff6a6a"/><stop offset=".6" stop-color="#d81e36"/><stop offset="1" stop-color="#7a0718"/>
+      </radialGradient>
+      <filter id="${u}glow" x="-60%" y="-60%" width="220%" height="220%">
+        <feGaussianBlur stdDeviation="2.2" result="b"/>
+        <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <filter id="${u}soft" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation=".6"/></filter>
+      <filter id="${u}blur" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="3"/></filter>
+      <!-- one continuous light across the whole body, so the parts read as one animal -->
+      <linearGradient id="${u}furU" gradientUnits="userSpaceOnUse" x1="60" y1="58" x2="150" y2="172">
+        <stop offset="0" stop-color="#3d4356"/><stop offset=".45" stop-color="#21242e"/><stop offset="1" stop-color="#0b0c11"/>
+      </linearGradient>
+      <linearGradient id="${u}furFar" gradientUnits="userSpaceOnUse" x1="60" y1="40" x2="170" y2="170">
+        <stop offset="0" stop-color="#1c1f28"/><stop offset="1" stop-color="#07080b"/>
+      </linearGradient>
+      <!-- a thin dark outline around the whole silhouette + a cool rim light on the top edges -->
+      <filter id="${u}ink" x="-10%" y="-10%" width="120%" height="120%">
+        <feMorphology in="SourceAlpha" operator="dilate" radius=".75" result="fat"/>
+        <feFlood flood-color="#06070b"/><feComposite in2="fat" operator="in" result="line"/>
+        <feOffset in="SourceAlpha" dx="1.6" dy="2" result="shift"/>
+        <feComposite in="SourceAlpha" in2="shift" operator="out" result="edge"/>
+        <feFlood flood-color="#b9c6f2" flood-opacity=".45"/><feComposite in2="edge" operator="in"/>
+        <feGaussianBlur stdDeviation=".45" result="rim"/>
+        <feMerge><feMergeNode in="line"/><feMergeNode in="SourceGraphic"/><feMergeNode in="rim"/></feMerge>
+      </filter>
+      <filter id="${u}smudge" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="4"/></filter>
+      <filter id="${u}smudgeS" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="1.2"/></filter>
+
+      <path id="${u}head" d="M30 97 C33 90 40 82 50 76 C60 68 76 64 88 70 C96 74 100 82 100 90 C100 96 99 100 103 104 L113 110 C107 111 102 111 98 112 L105 118 C97 118 89 116 82 116 C70 118 56 116 46 110 C40 107 34 103 30 97 Z"/>
+      <path id="${u}earF" d="M68 72 C70 52 80 32 98 12 C102 9 105 11 104 16 C101 36 97 56 93 78 C85 73 77 71 68 72 Z"/>
+      <path id="${u}earB" d="M55 78 C51 58 55 38 65 18 C67 14 71 15 71 19 C74 38 76 56 75 76 Z"/>
+      <path id="${u}body" d="M82 74 C96 70 108 79 122 79 C140 79 158 68 174 74 C186 79 192 92 188 106 C185 116 176 120 166 118 C156 116 148 110 138 110 C126 110 116 120 106 128 C98 132 90 128 86 120 C82 112 79 100 80 90 C80 83 80 78 82 74 Z"/>
+      <path id="${u}legFront" d="M103 103 C100 115 94 124 86 130 C78 136 70 139 64 141 C57 143 50 145 48 150 C47 155 52 158 58 157 C63 156 67 154 72 152 C86 146 104 132 124 106 Z"/>
+      <path id="${u}legUp" d="M158 98 C173 102 182 113 184 126 C185 134 188 141 187 147 C186 152 181 153 178 149 C175 142 172 134 166 128 C158 121 146 114 134 104 Z"/>
+      <path id="${u}tail" d="M168 82 C162 66 163 48 171 34 C175 27 181 21 189 16 C187 26 189 34 193 42 C196 52 195 66 189 78 C185 86 179 92 172 95 Z"/>
+      <clipPath id="${u}cSil">
+        <use href="#${u}head"/><use href="#${u}earF"/><use href="#${u}body"/>
+        <use href="#${u}legFront"/><use href="#${u}legUp"/><use href="#${u}tail"/>
+      </clipPath>
+      <clipPath id="${u}cEarF"><use href="#${u}earF"/></clipPath>
+      <clipPath id="${u}cEarB"><use href="#${u}earB"/></clipPath>
+      <clipPath id="${u}cTail"><use href="#${u}tail"/></clipPath>
+      <clipPath id="${u}cLegUp"><use href="#${u}legUp"/></clipPath>
+      <clipPath id="${u}cLegFront"><use href="#${u}legFront"/></clipPath>
+      <clipPath id="${u}cHead"><use href="#${u}head"/></clipPath>
+    </defs>
+
+    <!-- cosmic background -->
+    <rect width="200" height="230" fill="url(#${u}bg)"/>
+    <g fill="none" stroke-linecap="round" filter="url(#${u}blur)" opacity=".9">
+      <path d="M-10 170 C40 120 90 150 130 110 C160 80 190 90 215 60" stroke="#c77dff" stroke-width="10" opacity=".45"/>
+      <path d="M-10 60 C30 90 70 40 120 70 C150 88 180 60 215 120" stroke="#5fe0f0" stroke-width="7" opacity=".35"/>
+      <path d="M20 230 C60 180 120 210 160 160 C180 135 200 150 215 140" stroke="#ff7ac8" stroke-width="8" opacity=".3"/>
+    </g>
+    <g fill="none" stroke-linecap="round" opacity=".7">
+      <path d="M-10 172 C40 122 90 152 130 112 C160 82 190 92 215 62" stroke="#f1d7ff" stroke-width=".8"/>
+      <path d="M-10 62 C30 92 70 42 120 72 C150 90 180 62 215 122" stroke="#c9f6ff" stroke-width=".6"/>
+    </g>
+    ${stars}
+    ${glints}
+
+    <!-- soft glow behind Umbreon -->
+    <ellipse cx="108" cy="98" rx="84" ry="58" fill="#7fe3f2" opacity=".18" filter="url(#${u}blur)"/>
+    <!-- motion streaks -->
+    <g stroke="#e9f7ff" stroke-linecap="round" fill="none" opacity=".3">
+      <path d="M196 98 C186 100 176 106 168 114" stroke-width="1"/>
+      <path d="M198 126 C190 130 182 136 176 144" stroke-width=".8"/>
+      <path d="M150 152 C140 156 128 160 116 160" stroke-width=".8"/>
+    </g>
+
+    <g transform="translate(-8 8) rotate(-6 100 100)">
+      <!-- far side: ear and legs, in shadow -->
+      <g filter="url(#${u}ink)" fill="url(#${u}furFar)">
+        <use href="#${u}earB"/>
+        <path d="M102 98 C110 114 112 132 107 148 C105 153 101 157 96 159 C90 161 88 166 93 168 C99 170 106 166 111 160 C119 149 126 132 134 100 Z"/>
+        <path d="M166 86 C175 79 182 70 186 60 C189 56 194 59 193 65 C190 77 183 89 174 100 Z"/>
+      </g>
+      <g clip-path="url(#${u}cEarB)"><path d="M48 44 L84 36" stroke="#c9981f" stroke-width="7.5"/></g>
+
+      <!-- near side: one connected silhouette -->
+      <g filter="url(#${u}ink)">
+        <g fill="url(#${u}furU)">
+          <use href="#${u}tail"/><use href="#${u}legUp"/><use href="#${u}body"/>
+          <use href="#${u}legFront"/><use href="#${u}earF"/><use href="#${u}head"/>
+        </g>
+        <!-- painted shading, kept inside the silhouette -->
+        <g clip-path="url(#${u}cSil)">
+          <ellipse cx="138" cy="122" rx="56" ry="15" fill="#04050a" opacity=".6" filter="url(#${u}smudge)"/>
+          <ellipse cx="66" cy="112" rx="30" ry="8" fill="#04050a" opacity=".45" filter="url(#${u}smudge)"/>
+          <path d="M84 76 C98 72 110 81 122 81 C140 81 158 71 174 77" stroke="#8b9bc4" stroke-width="6" fill="none" opacity=".28" filter="url(#${u}smudgeS)"/>
+          <ellipse cx="70" cy="75" rx="20" ry="7" fill="#8391b8" opacity=".3" filter="url(#${u}smudgeS)"/>
+          <path d="M84 30 C88 24 94 18 100 14" stroke="#8b9bc4" stroke-width="3" fill="none" opacity=".35" filter="url(#${u}smudgeS)"/>
+          <path d="M174 40 C178 32 184 24 189 18" stroke="#8b9bc4" stroke-width="3" fill="none" opacity=".3" filter="url(#${u}smudgeS)"/>
+          <!-- soft folds where legs meet the body (no hard seams) -->
+          <path d="M107 108 C102 118 96 125 88 131" stroke="#05060a" stroke-width="3" fill="none" opacity=".45" filter="url(#${u}smudgeS)"/>
+          <path d="M159 100 C155 109 149 114 140 116" stroke="#05060a" stroke-width="3" fill="none" opacity=".45" filter="url(#${u}smudgeS)"/>
+          <!-- fur flow -->
+          <g stroke="#9aa8cf" stroke-width=".6" fill="none" opacity=".35" stroke-linecap="round">
+            <path d="M120 86 C134 86 148 80 162 80"/><path d="M126 94 C138 94 150 90 160 92"/>
+            <path d="M164 90 C172 94 176 102 176 110"/><path d="M58 74 C66 69 74 67 82 69"/>
+            <path d="M94 128 C84 134 74 138 64 142"/>
+          </g>
+          <!-- inner ear -->
+          <path d="M78 70 C84 54 92 38 100 22 C99 38 95 56 91 74 Z" fill="#05060a" opacity=".55" filter="url(#${u}smudgeS)"/>
+        </g>
+      </g>
+
+      <!-- fur tufts: chest, cheek, tail tip, elbows -->
+      <g stroke="#07080c" stroke-width=".9" stroke-linecap="round" fill="none" opacity=".85">
+        <path d="M88 118 l-3 5 M92 120 l-2 6 M96 121 l-1 5"/>
+        <path d="M100 106 l5 3 M98 110 l6 2"/>
+        <path d="M181 30 l4 -3 M184 36 l5 -2"/>
+        <path d="M150 112 l-4 4 M146 111 l-4 3"/>
+      </g>
+      <!-- toes -->
+      <g stroke="#07080c" stroke-width=".8" stroke-linecap="round" fill="none">
+        <path d="M54 150 l3 3 M57 147 l3 3"/>
+        <path d="M183 146 l-2 4 M186 144 l-1 4"/>
+      </g>
+
+      <!-- gold rings, glowing -->
+      <g filter="url(#${u}glow)">
+        <g clip-path="url(#${u}cTail)"><path d="M150 57 L204 47" stroke="#f6c83a" stroke-width="8"/></g>
+        <g clip-path="url(#${u}cLegUp)"><path d="M158 128 L181 109" stroke="#f6c83a" stroke-width="7"/></g>
+        <g clip-path="url(#${u}cLegFront)"><path d="M78 122 L93 146" stroke="#f6c83a" stroke-width="7"/></g>
+        <g clip-path="url(#${u}cEarF)"><path d="M72 45 L112 34" stroke="#f6c83a" stroke-width="9"/></g>
+        <ellipse cx="74" cy="76" rx="7.6" ry="5.4" transform="rotate(-14 74 76)" fill="none" stroke="#f6c83a" stroke-width="3.6"/>
+      </g>
+
+      <!-- face -->
+      <g clip-path="url(#${u}cHead)">
+        <path d="M38 85 C46 78 60 77 70 83 L68 88 C58 83 48 84 40 90 Z" fill="#05060a" opacity=".5" filter="url(#${u}smudgeS)"/>
+      </g>
+      <path d="M40 90 C45 81 58 79 67 86 C62 95 49 97 40 90 Z" fill="url(#${u}eye)" filter="url(#${u}glow)"/>
+      <path d="M40 90 C45 81 58 79 67 86 C62 95 49 97 40 90 Z" fill="none" stroke="#12020a" stroke-width="1"/>
+      <path d="M54.2 82.6 C56.4 85.6 56.4 91.4 54.2 94.2 C52.4 91.4 52.4 85.6 54.2 82.6 Z" fill="#240208"/>
+      <circle cx="51.6" cy="85.6" r="1.5" fill="#fff"/>
+      <circle cx="57" cy="91" r=".7" fill="#fff" opacity=".7"/>
+      <path d="M37 85 C45 77 60 76 71 82" stroke="#050609" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+      <path d="M30.5 96.5 C31.5 95 33.5 95 34 96.6 C33.4 98 31.4 98.2 30.5 96.5 Z" fill="#040406"/>
+      <path d="M34 103 C39 105.5 45 106.5 52 105.6" stroke="#040406" stroke-width=".9" fill="none" stroke-linecap="round"/>
+    </g>
+  </svg>`;
+}
+
+const $ = id => document.getElementById(id);
+const money = n => n.toLocaleString('en-US', {style:'currency', currency:'USD'});
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const shopProducts = () => PRODUCTS.filter(p => !p.hidden);
+const findProduct = id => shopProducts().find(p => p.id === id);
+const accentStyle = p => `--ring:${p.accent};--ring-soft:${p.accent}29`;
+
+document.title = SHOP.name;
+$('shopName').textContent = SHOP.name;
+
+/* ---- the foil pack, built for any pack ---- */
+let boxSeq = 0;
+function boxHTML(p) {
+  const u = `b${++boxSeq}-`;
+  const list = p.contents.map(c => `<li>${esc(c)}</li>`).join('');
+  return `
+  <div class="box">
+    <div class="pbody front foil">
+      <div class="sticker">
+        ${p.art ? p.art(u) : ''}
+        <div class="title-strip"><b>${esc(p.title.toUpperCase())}</b><span>FAN-MADE · No. ${esc(p.number)}</span></div>
+        <div class="corner"></div>
+      </div>
+      <div class="badge">FAN<br>MADE</div>
+      <div class="print">${p.cardCount} CARDS</div>
+    </div>
+    <div class="pbody back foil">
+      ${p.pulls && p.pulls.length ? `
+      <div class="label has-pulls">
+        ${p.pulls.map((g, gi) => `
+          <section class="pull">
+            <h4 class="marker"><span class="sym">${esc(g.symbol || '')}</span>${esc(g.label)}${g.odds ? `<span class="odds">${esc(g.odds)}</span>` : ''}</h4>
+            <div class="pull-cards">
+              ${g.cards.map((c, ci) => `<img data-g="${gi}" data-c="${ci}" src="${esc(c.img)}" alt="${esc(`${c.name}, ${c.set} ${c.number}`)}" title="${esc(`${c.name} · ${c.set} ${c.number}`)}" loading="lazy" draggable="false">`).join('')}
+            </div>
+          </section>`).join('')}
+      </div>` : `
+      <div class="label">
+        <h4 class="marker">What's inside:</h4>
+        <ul class="marker">${list}</ul>
+        <div class="barcode"><i></i><small>${esc(p.id.toUpperCase())}</small></div>
+        <div class="marker no">#${esc(p.number)}</div>
+      </div>`}
+    </div>
+    <div class="side right foil"></div>
+    <div class="side left foil"></div>
+    <div class="edge top foil"></div>
+    <div class="edge bottom foil"></div>
+    <div class="crimp top foil"></div>
+    <div class="crimp bottom foil"></div>
+  </div>`;
+}
+
+/* ---- pages ---- */
+const app = $('app');
+
+function renderShop() {
+  const list = shopProducts();
+  app.innerHTML = `
+    <section class="page-head">
+      <h1 class="logo-text">Shop packs</h1>
+      <p>${esc(SHOP.tagline)}</p>
+    </section>
+    <section class="grid">
+      ${list.map(p => `
+        <a class="card" href="#/pack/${encodeURIComponent(p.id)}" style="${accentStyle(p)}">
+          <div class="card-stage"><div class="scaler">${boxHTML(p)}</div></div>
+          <div class="card-body">
+            <div><b>${esc(p.name)}</b><small>No. ${esc(p.number)} · ${p.cardCount} cards</small><span class="card-view">View pack →</span></div>
+            <div class="card-price">${money(p.price)}</div>
+          </div>
+        </a>`).join('')}
+    </section>`;
+}
+
+function renderProduct(p) {
+  app.innerHTML = `
+    <div class="detail-top"><a class="crumb" href="#/">‹ All packs</a></div>
+    <section class="hero" style="${accentStyle(p)}">
+      <div class="stage-col">
+        <div class="stage-slot">
+          <div class="stage" id="stage" aria-label="${esc(p.name)}. Drag to spin, click to zoom in.">
+            <div class="shadow"></div>
+            <div class="zoomer"><div class="floater">${boxHTML(p)}</div></div>
+            <button class="zoom-btn stage-close" id="stageClose" aria-label="Zoom out">×</button>
+            <div class="stage-bar">
+              <button class="zoom-btn" id="zoomMinus" aria-label="Zoom out more">−</button>
+              <span class="zoom-level" id="zoomLevel">100%</span>
+              <button class="zoom-btn" id="zoomPlus" aria-label="Zoom in more">+</button>
+              <span>Scroll to zoom · drag to turn · click a card on the back to see it big</span>
+            </div>
+          </div>
+        </div>
+        <div class="view-btns" role="group" aria-label="View the box">
+          <button class="chip" data-view="front">Front</button>
+          <button class="chip" data-view="side">Side</button>
+          <button class="chip" data-view="back">Back</button>
+          <button class="chip" data-view="spin">Spin ↻</button>
+        </div>
+        <p class="hint">Drag to turn the pack · click it to zoom in</p>
+      </div>
+      <div class="product">
+        <span class="tag">Pack No. ${esc(p.number)} · Fan-made</span>
+        <h1 class="logo-text"><em>${esc(p.title)}</em><br>Pack</h1>
+        <div class="price">${money(p.price)}<small>per pack</small></div>
+        <p class="desc">${esc(p.description)}</p>
+        <div class="contents">
+          <h2>What's inside</h2>
+          <ul>${p.contents.map(c => `<li>${esc(c)}</li>`).join('')}</ul>
+        </div>
+        ${p.pulls && p.pulls.some(g => g.odds) ? `
+        <div class="contents rates">
+          <h2>Pull rates</h2>
+          <ul>${p.pulls.filter(g => g.odds).map(g => `<li><span class="sym">${esc(g.symbol || '')}</span>${esc(g.one || g.label.replace(/s$/, ''))}<b>${esc(g.odds)}</b></li>`).join('')}</ul>
+        </div>` : ''}
+        <div class="buy">
+          <div class="qty" aria-label="Quantity">
+            <button id="qMinus" aria-label="Fewer">−</button>
+            <output id="qVal">1</output>
+            <button id="qPlus" aria-label="More">+</button>
+          </div>
+          <button class="primary" id="addBtn">Add to cart</button>
+        </div>
+        <p class="added" id="added" aria-live="polite"></p>
+      </div>
+    </section>`;
+  setupBox((g, c) => zoomCard(p, g, c));
+  let pick = 1;
+  $('qMinus').onclick = () => { pick = Math.max(1, pick - 1); $('qVal').textContent = pick; };
+  $('qPlus').onclick = () => { pick = Math.min(p.maxPerOrder, pick + 1); $('qVal').textContent = pick; };
+  $('addBtn').onclick = () => {
+    const got = setQty(p.id, (cart[p.id] || 0) + pick) - 0;
+    $('added').textContent = got
+      ? `Added ${got} ${got === 1 ? 'pack' : 'packs'} to your cart.`
+      : `You can order up to ${p.maxPerOrder} of this pack at a time.`;
+  };
+}
+
+/* ---- zoom into a card from the back of the pack ---- */
+let zoomList = [], zoomAt = 0;
+function zoomCard(p, g, c) {
+  zoomList = p.pulls.flatMap(grp => grp.cards.map(card => ({ ...card, rarity: grp.one || grp.label.replace(/s$/, ''), symbol: grp.symbol || '', odds: grp.odds || '' })));
+  zoomAt = p.pulls.slice(0, g).reduce((n, grp) => n + grp.cards.length, 0) + c;
+  showZoom();
+  if (!$('zoom').open) $('zoom').showModal();
+}
+function showZoom() {
+  const c = zoomList[zoomAt], img = $('zoomImg');
+  img.src = c.img;                                           // small picture right away...
+  img.alt = `${c.name}, ${c.set} ${c.number}`;
+  const big = c.big || c.img.replace(/\.png$/, '_hires.png'); // ...then the sharp one once it loads
+  const hi = new Image();
+  hi.onload = () => { if (zoomList[zoomAt] === c) img.src = big; };
+  hi.src = big;
+  img.style.animation = 'none'; img.offsetWidth; img.style.animation = '';
+  $('zoomCap').innerHTML = `<b>${esc(c.name)}</b><span>${esc(c.symbol)} ${esc(c.rarity)}${c.odds ? ` (${esc(c.odds)} chance)` : ''} · ${esc(c.set)} ${esc(c.number)}</span>`;
+}
+const stepZoom = d => { zoomAt = (zoomAt + d + zoomList.length) % zoomList.length; showZoom(); };
+$('zoomPrev').onclick = () => stepZoom(-1);
+$('zoomNext').onclick = () => stepZoom(1);
+$('zoomClose').onclick = () => $('zoom').close();
+$('zoom').addEventListener('click', e => { if (e.target === $('zoom') || e.target.classList.contains('zoom-wrap')) $('zoom').close(); });
+$('zoom').addEventListener('keydown', e => {
+  if (e.key === 'ArrowLeft') stepZoom(-1);
+  if (e.key === 'ArrowRight') stepZoom(1);
+});
+
+function route() {
+  closeCart();
+  document.body.classList.remove('pack-zoomed');
+  if ($('zoom').open) $('zoom').close();
+  const m = location.hash.match(/^#\/pack\/(.+)$/);
+  const p = m && findProduct(decodeURIComponent(m[1]));
+  if (p) renderProduct(p); else renderShop();
+  window.scrollTo(0, 0);
+}
+
+/* ---- spinning the pack on a pack page ---- */
+function setupBox(onCard) {
+  const stage = $('stage'), box = stage.querySelector('.box');
+  let rx = -12, ry = -28, dragging = false, lastX = 0, lastY = 0;
+  let startX = 0, startY = 0, onBox = false, downCard = null;
+  const apply = () => {
+    box.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`;
+    box.style.setProperty('--sheen', `${50 + Math.sin(ry * Math.PI / 180) * 45}%`); // light slides across the foil
+  };
+  const setView = (x, y) => {
+    box.classList.add('ease');
+    rx = x; ry = y + Math.round((ry - y) / 360) * 360; // take the short way round
+    apply();
+  };
+  // zoom level + pan while zoomed in. Scroll wheel / pinch / + − zoom toward a point.
+  let zoom = 1, baseZoom = 1, panX = 0, panY = 0, packW = 220, packH = 360, wheelTimer = 0;
+  const applyZoom = () => {
+    stage.style.setProperty('--zoom', zoom.toFixed(3));
+    stage.style.setProperty('--px', `${panX.toFixed(1)}px`);
+    stage.style.setProperty('--py', `${panY.toFixed(1)}px`);
+    $('zoomLevel').textContent = `${Math.round(zoom / baseZoom * 100)}%`;
+  };
+  const zoomTo = (next, cx, cy) => {
+    next = Math.min(baseZoom * 4, Math.max(baseZoom * 0.5, next));
+    const r = stage.getBoundingClientRect();
+    const ox = cx - (r.left + r.width / 2), oy = cy - (r.top + r.height / 2);
+    // keep the spot under the cursor in place while the pack grows or shrinks
+    panX = ox - (ox - panX) * next / zoom;
+    panY = oy - (oy - panY) * next / zoom;
+    zoom = next;
+    if (zoom <= baseZoom) { panX = 0; panY = 0; }
+    const maxX = packW * zoom / 2, maxY = packH * zoom / 2;       // don't let the pack slide off screen
+    panX = Math.max(-maxX, Math.min(maxX, panX));
+    panY = Math.max(-maxY, Math.min(maxY, panY));
+    applyZoom();
+  };
+  const zoomAtCenter = f => { const r = stage.getBoundingClientRect(); zoomTo(zoom * f, r.left + r.width / 2, r.top + r.height / 2); };
+  const zoomIn = () => {
+    const css = getComputedStyle(document.documentElement);
+    packW = parseFloat(css.getPropertyValue('--w')); packH = parseFloat(css.getPropertyValue('--h'));
+    baseZoom = zoom = Math.max(1, Math.min((innerHeight - 150) / (packH * 1.1), (innerWidth - 40) / (packW * 1.5), 2.6));
+    panX = panY = 0;
+    applyZoom();
+    stage.classList.add('zoomed');
+    document.body.classList.add('pack-zoomed');
+  };
+  const zoomOut = () => { stage.classList.remove('zoomed'); document.body.classList.remove('pack-zoomed'); };
+  $('stageClose').onclick = zoomOut;
+  $('zoomPlus').onclick = () => zoomAtCenter(1.35);
+  $('zoomMinus').onclick = () => zoomAtCenter(1 / 1.35);
+  stage.addEventListener('wheel', e => {
+    if (!stage.classList.contains('zoomed')) return;
+    e.preventDefault();
+    stage.classList.add('wheeling');
+    clearTimeout(wheelTimer);
+    wheelTimer = setTimeout(() => stage.classList.remove('wheeling'), 160);
+    const dy = e.deltaMode === 1 ? e.deltaY * 33 : e.deltaY;       // some mice scroll in lines, not pixels
+    zoomTo(zoom * Math.exp(-dy * (e.ctrlKey ? 0.01 : 0.0015)), e.clientX, e.clientY);  // ctrlKey = trackpad pinch
+  }, { passive: false });
+  document.addEventListener('keydown', e => {
+    if (!stage.isConnected || !stage.classList.contains('zoomed') || document.querySelector('dialog[open]')) return;
+    if (e.key === 'Escape') zoomOut();
+    if (e.key === '+' || e.key === '=') zoomAtCenter(1.35);
+    if (e.key === '-' || e.key === '_') zoomAtCenter(1 / 1.35);
+  });
+  // two fingers on a phone: pinch to zoom
+  const touches = new Map();
+  let pinchDist = 0, pinched = false;
+  const pinchInfo = () => {
+    const [a, b] = [...touches.values()];
+    return { d: Math.hypot(a.x - b.x, a.y - b.y), x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 };
+  };
+  stage.addEventListener('pointerdown', e => {
+    if (e.target.closest('button')) return;
+    touches.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (touches.size === 2) { pinched = true; pinchDist = pinchInfo().d; }
+    if (touches.size === 1) pinched = false;
+    dragging = true; lastX = startX = e.clientX; lastY = startY = e.clientY;
+    onBox = !!e.target.closest('.box');
+    downCard = e.target.closest('.pull-cards img');
+    box.classList.remove('ease');
+    stage.setPointerCapture(e.pointerId);
+  });
+  stage.addEventListener('pointermove', e => {
+    if (touches.has(e.pointerId)) touches.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (touches.size === 2) {
+      if (stage.classList.contains('zoomed') && pinchDist) {
+        const p = pinchInfo();
+        zoomTo(zoom * p.d / pinchDist, p.x, p.y);
+        pinchDist = p.d;
+      }
+      return;
+    }
+    if (!dragging || pinched) return;
+    ry += (e.clientX - lastX) * 0.5;
+    rx = Math.max(-60, Math.min(60, rx - (e.clientY - lastY) * 0.4));
+    lastX = e.clientX; lastY = e.clientY;
+    apply();
+  });
+  const endDrag = e => { dragging = false; if (e) touches.delete(e.pointerId); if (touches.size < 2) pinchDist = 0; };
+  stage.addEventListener('pointerup', e => {
+    // a click (not a drag): first click on the pack zooms in; once zoomed, a card on the back
+    // shows that card big and the empty space around zooms back out.
+    const moved = Math.hypot(e.clientX - startX, e.clientY - startY);
+    const backFacing = Math.cos(ry * Math.PI / 180) < 0;
+    if (dragging && moved < 6 && !pinched) {
+      if (!stage.classList.contains('zoomed')) { if (onBox) zoomIn(); }
+      else if (!onBox) zoomOut();
+      else if (downCard && backFacing) onCard(+downCard.dataset.g, +downCard.dataset.c);
+    }
+    endDrag(e);
+  });
+  stage.addEventListener('pointercancel', endDrag);
+  app.querySelectorAll('[data-view]').forEach(b => b.addEventListener('click', () => {
+    const v = b.dataset.view;
+    if (v === 'front') setView(-8, -18);
+    if (v === 'side') setView(-10, -72);
+    if (v === 'back') setView(-8, 162);
+    if (v === 'spin') { box.classList.add('ease'); ry += 360; apply(); }
+  }));
+  apply();
+}
+
+/* ---- cart: { productId: quantity } ---- */
+let cart = {};
+try {
+  const saved = JSON.parse(localStorage.getItem('cart') || '{}');
+  for (const [id, q] of Object.entries(saved)) {
+    const p = findProduct(id), n = parseInt(q);
+    if (p && n > 0) cart[id] = Math.min(p.maxPerOrder, n);
+  }
+} catch (e) {}
+
+const cartLines = () => Object.entries(cart).map(([id, qty]) => ({ p: findProduct(id), qty })).filter(l => l.p && l.qty > 0);
+const cartCount = () => cartLines().reduce((s, l) => s + l.qty, 0);
+const cartTotal = () => cartLines().reduce((s, l) => s + l.qty * l.p.price, 0);
+
+// sets a pack's quantity, returns how much it actually changed by
+function setQty(id, qty) {
+  const p = findProduct(id); if (!p) return 0;
+  const before = cart[id] || 0;
+  const n = Math.max(0, Math.min(p.maxPerOrder, qty));
+  if (n) cart[id] = n; else delete cart[id];
+  try { localStorage.setItem('cart', JSON.stringify(cart)); } catch (e) {}
+  renderCart();
+  return n - before;
+}
+
+function renderCart() {
+  const lines = cartLines();
+  $('cartCount').textContent = cartCount();
+  $('cartTotal').textContent = money(cartTotal());
+  $('checkoutBtn').disabled = lines.length === 0;
+  if (!lines.length) { $('cartBody').innerHTML = `<p class="empty">Your cart is empty.</p>`; return; }
+  $('cartBody').innerHTML = lines.map(({p, qty}) => `
+    <div class="line-item" style="${accentStyle(p)}">
+      <div class="thumb foil"></div>
+      <div class="info">
+        <b>${esc(p.name)}</b><span>${money(p.price)} each</span><br>
+        <button class="remove" data-rm="${esc(p.id)}">Remove</button>
+      </div>
+      <div class="qty small">
+        <button data-dec="${esc(p.id)}" aria-label="Fewer">−</button><output>${qty}</output><button data-inc="${esc(p.id)}" aria-label="More">+</button>
+      </div>
+    </div>`).join('<div style="height:16px"></div>');
+}
+$('cartBody').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  if (b.dataset.rm) setQty(b.dataset.rm, 0);
+  if (b.dataset.dec) setQty(b.dataset.dec, (cart[b.dataset.dec] || 0) - 1);
+  if (b.dataset.inc) setQty(b.dataset.inc, (cart[b.dataset.inc] || 0) + 1);
+});
+
+const drawer = $('drawer'), scrim = $('scrim');
+function openCart() { drawer.classList.add('on'); scrim.classList.add('on'); drawer.setAttribute('aria-hidden','false'); $('closeCart').focus(); }
+function closeCart() { drawer.classList.remove('on'); scrim.classList.remove('on'); drawer.setAttribute('aria-hidden','true'); }
+$('openCart').onclick = openCart;
+$('closeCart').onclick = closeCart;
+scrim.onclick = closeCart;
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCart(); });
+
+/* ---- checkout ---- */
+const dlg = $('checkout');
+$('checkoutBtn').onclick = () => {
+  if (!cartLines().length) return;
+  const n = cartCount();
+  $('sumItems').textContent = `${n} ${n === 1 ? 'pack' : 'packs'}`;
+  $('sumTotal').textContent = money(cartTotal());
+  $('orderForm').hidden = false; $('orderDone').hidden = true; $('oErr').textContent = '';
+  closeCart(); dlg.showModal();
+};
+$('cancelOrder').onclick = () => dlg.close();
+$('orderForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const name = $('oName').value.trim(), contact = $('oContact').value.trim(), note = $('oNote').value.trim();
+  if (!name || !contact) { $('oErr').textContent = 'Please add your name and how we can reach you.'; return; }
+  const text = [
+    `New order for ${SHOP.name}`,
+    ``,
+    ...cartLines().map(({p, qty}) => `${qty} × ${p.name} (${money(p.price)} each)`),
+    `Total: ${money(cartTotal())}`,
+    ``,
+    `Name: ${name}`,
+    `Contact: ${contact}`,
+    note ? `Note: ${note}` : null,
+  ].filter(l => l !== null).join('\n');
+  $('orderText').textContent = text;
+  if (SHOP.orderEmail) {
+    $('doneMsg').textContent = 'Your email app is opening with the order already written. Press send there to finish.';
+    location.href = `mailto:${SHOP.orderEmail}?subject=${encodeURIComponent('New order: ' + SHOP.name)}&body=${encodeURIComponent(text)}`;
+  } else {
+    $('doneMsg').textContent = 'Copy this order and send it to the shop owner to finish.';
+  }
+  $('orderForm').hidden = true; $('orderDone').hidden = false;
+});
+$('copyOrder').onclick = async () => {
+  try { await navigator.clipboard.writeText($('orderText').textContent); $('copyOrder').textContent = 'Copied!'; }
+  catch (e) { $('copyOrder').textContent = 'Select & copy'; }
+  setTimeout(() => $('copyOrder').textContent = 'Copy order', 1600);
+};
+$('finishOrder').onclick = () => {
+  cart = {}; try { localStorage.setItem('cart', '{}'); } catch (e) {}
+  renderCart(); dlg.close(); $('orderForm').reset();
+};
+
+window.addEventListener('hashchange', route);
+renderCart();
+route();
+</script>
+</body>
+</html>
