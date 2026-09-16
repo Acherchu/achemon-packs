@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ache-mon Packs</title>
-<meta name="description" content="Handmade fan-made booster packs, filled and crimp-sealed by hand.">
+<meta name="description" content="Handmade booster packs filled with 100% real Pokémon cards. No fakes, no fan-made cards.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%2311121a'/><circle cx='16' cy='16' r='8' fill='none' stroke='%23f5c542' stroke-width='3.5'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -221,6 +221,14 @@ pre.order{white-space:pre-wrap;background:var(--panel);border:1px solid var(--li
 .card-body small{color:var(--muted);font-size:14px}
 .card-price{font-size:22px;font-weight:800;white-space:nowrap;color:var(--red)}
 .card-view{display:block;margin-top:4px;color:var(--blue);font-size:14px;font-weight:600}
+.real-banner{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px;width:fit-content;max-width:100%;margin:0 auto 14px;padding:8px 16px;border-radius:999px;background:#fff;border:2px solid var(--blue);color:var(--text);font-size:15px;text-align:center;box-shadow:0 3px 0 var(--blue-dark)}
+.real-banner b{color:var(--blue-dark)}
+.check{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:#1f9d55;color:#fff;font-size:12px;font-weight:800;flex:none}
+.real-note{display:flex;gap:10px;align-items:flex-start;margin:14px 0 0;padding:12px 14px;border-radius:12px;background:#eaf7ef;border:2px solid #1f9d55;color:#14532d;font-size:14px;max-width:46ch}
+.real-note .check{margin-top:1px}
+.real-chip{display:inline-flex;align-items:center;gap:5px;margin-top:6px;font-size:13px;font-weight:700;color:#14532d}
+.real-chip .check{width:16px;height:16px;font-size:10px}
+.zoom-real{display:block;margin-top:4px;font-size:13px;font-weight:700;color:#7ee2a4}
 .crumb{display:inline-block;color:var(--muted);text-decoration:none;font-weight:600;padding:4px 0}
 .crumb:hover{color:var(--text)}
 .detail-top{padding-top:4px}
@@ -301,13 +309,15 @@ body.pack-zoomed .wrap{z-index:30}
   </div>
 </header>
 <div class="wrap">
+  <p class="real-banner"><span class="check">✔</span> <b>100% real Pokémon cards</b> in every pack. No fakes, no fan-made cards.</p>
 
   <main id="app"></main>
 
 
   <footer>
-    Every pack is filled and crimp-sealed by hand. This is a fan-made project. It isn't
-    connected to, or approved by, Nintendo, Game Freak, Creatures or The Pokémon Company.
+    Every pack is filled and crimp-sealed by hand, and every card inside is a real, official Pokémon
+    trading card. No fakes, no proxies, no fan-made cards. The packaging is our own design; this shop
+    isn't connected to, or approved by, Nintendo, Game Freak, Creatures or The Pokémon Company.
   </footer>
 </div>
 
@@ -368,7 +378,7 @@ body.pack-zoomed .wrap{z-index:30}
 /* ===================== Edit your shop here ===================== */
 const SHOP = {
   name: 'Ache-mon Packs',
-  tagline: 'Handmade fan-made booster packs, each one filled and sealed by hand.',
+  tagline: 'Handmade booster packs, each one filled by hand with real Pokémon cards.',
   // Orders get emailed here. Leave it empty and buyers get an order to copy and send you instead.
   orderEmail: '',
 };
@@ -384,8 +394,8 @@ const PRODUCTS = [
     price: 9.00,
     cardCount: 7,
     accent: '#f5c542',           // glow color for this pack
-    description: 'A handmade booster pack for Umbreon fans. Each one is filled by hand and crimp-sealed in a shiny foil pack, just like the real thing.',
-    contents: ['7 cards', '1 Umbreon card, guaranteed', 'Crimp-sealed foil pack'],
+    description: 'A handmade booster pack for Umbreon fans, filled with real Pokémon cards. Each one is packed by hand and crimp-sealed in a shiny foil pack.',
+    contents: ['7 real Pokémon cards (no fakes or fan cards)', '1 real Umbreon card, guaranteed', 'Crimp-sealed foil pack'],
     // cards you can pull, shown on the back of the pack
     pulls: [
       { label: 'Commons', symbol: '●', odds: '75%', cards: [
@@ -607,11 +617,11 @@ function boxHTML(p) {
     <div class="pbody front foil">
       <div class="sticker">
         ${p.art ? p.art(u) : ''}
-        <div class="title-strip"><b>${esc(p.title.toUpperCase())}</b><span>FAN-MADE · No. ${esc(p.number)}</span></div>
+        <div class="title-strip"><b>${esc(p.title.toUpperCase())}</b><span>REAL CARDS · No. ${esc(p.number)}</span></div>
         <div class="corner"></div>
       </div>
-      <div class="badge">FAN<br>MADE</div>
-      <div class="print">${p.cardCount} CARDS</div>
+      <div class="badge">REAL<br>CARDS</div>
+      <div class="print">${p.cardCount} REAL CARDS</div>
     </div>
     <div class="pbody back foil">
       ${p.pulls && p.pulls.length ? `
@@ -655,7 +665,7 @@ function renderShop() {
         <a class="card" href="#/pack/${encodeURIComponent(p.id)}" style="${accentStyle(p)}">
           <div class="card-stage"><div class="scaler">${boxHTML(p)}</div></div>
           <div class="card-body">
-            <div><b>${esc(p.name)}</b><small>No. ${esc(p.number)} · ${p.cardCount} cards</small><span class="card-view">View pack →</span></div>
+            <div><b>${esc(p.name)}</b><small>No. ${esc(p.number)} · ${p.cardCount} real cards</small><span class="real-chip"><span class="check">✔</span> Real Pokémon cards</span><span class="card-view">View pack →</span></div>
             <div class="card-price">${money(p.price)}</div>
           </div>
         </a>`).join('')}
@@ -689,7 +699,7 @@ function renderProduct(p) {
         <p class="hint">Drag to turn the pack · click it to zoom in</p>
       </div>
       <div class="product">
-        <span class="tag">Pack No. ${esc(p.number)} · Fan-made</span>
+        <span class="tag">Pack No. ${esc(p.number)} · 100% real cards</span>
         <h1 class="logo-text"><em>${esc(p.title)}</em><br>Pack</h1>
         <div class="price">${money(p.price)}<small>per pack</small></div>
         <p class="desc">${esc(p.description)}</p>
@@ -699,7 +709,7 @@ function renderProduct(p) {
         </div>
         ${p.pulls && p.pulls.some(g => g.odds) ? `
         <div class="contents rates">
-          <h2>Pull rates</h2>
+          <h2>Pull rates (all real cards)</h2>
           <ul>${p.pulls.filter(g => g.odds).map(g => `<li><span class="sym">${esc(g.symbol || '')}</span>${esc(g.one || g.label.replace(/s$/, ''))}<b>${esc(g.odds)}</b></li>`).join('')}</ul>
         </div>` : ''}
         <div class="buy">
@@ -711,6 +721,7 @@ function renderProduct(p) {
           <button class="primary" id="addBtn">Add to cart</button>
         </div>
         <p class="added" id="added" aria-live="polite"></p>
+        <p class="real-note"><span class="check">✔</span><span><b>Real cards only.</b> Every card in this pack is a real, official Pokémon trading card, like the ones on the back of the pack. No fakes, no proxies, no fan-made cards.</span></p>
       </div>
     </section>`;
   setupBox((g, c) => zoomCard(p, g, c));
@@ -742,7 +753,7 @@ function showZoom() {
   hi.onload = () => { if (zoomList[zoomAt] === c) img.src = big; };
   hi.src = big;
   img.style.animation = 'none'; img.offsetWidth; img.style.animation = '';
-  $('zoomCap').innerHTML = `<b>${esc(c.name)}</b><span>${esc(c.symbol)} ${esc(c.rarity)}${c.odds ? ` (${esc(c.odds)} chance)` : ''} · ${esc(c.set)} ${esc(c.number)}</span>`;
+  $('zoomCap').innerHTML = `<b>${esc(c.name)}</b><span>${esc(c.symbol)} ${esc(c.rarity)}${c.odds ? ` (${esc(c.odds)} chance)` : ''} · ${esc(c.set)} ${esc(c.number)}</span><span class="zoom-real">✔ Real, official Pokémon card</span>`;
 }
 const stepZoom = d => { zoomAt = (zoomAt + d + zoomList.length) % zoomList.length; showZoom(); };
 $('zoomPrev').onclick = () => stepZoom(-1);
