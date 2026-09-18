@@ -4,8 +4,13 @@
 [Acherchu/achemon-packs](https://github.com/Acherchu/achemon-packs). Pushing to `main` redeploys it;
 a build takes about a minute.
 
-A shop site for Archer's handmade fan-made Pokémon booster packs. Right now it sells one pack, the
-**Umbreon Pack** ($9, 7 cards), but it's built for several.
+A shop site for Archer's handmade Pokémon booster packs (real cards inside). It sells the
+**Umbreon Pack** (No. 001) and the **Charizard Pack** (No. 002), $9 and 7 cards each.
+
+Each pack's foil/trim colors come from its `theme` in `PRODUCTS` (CSS variables `--acc-rgb`,
+`--f1`…`--f5`, glows, sparkles; defaults in `:root` are Umbreon's). Art is a hand-built SVG function
+per pack (`umbreonArt`, `charizardArt`). Charizard's pulls are the Charmander line (Charmander
+commons, Charmeleon uncommons, Charizard rares/legendaries) with TCGdex image URLs (`img` + `big`).
 
 ## Files
 
