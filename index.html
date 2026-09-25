@@ -116,27 +116,6 @@ a{color:var(--blue)}
 .marker{font-family:"Permanent Marker", "Comic Sans MS", cursive}
 
 /* back: a handwritten label */
-.label{position:absolute;left:14px;right:14px;top:18px;bottom:22px;background:rgba(14,15,21,.9);border:1.5px solid rgba(var(--acc-rgb),.8);border-radius:8px;padding:14px 16px;color:rgb(var(--acc-rgb));transform:rotate(.8deg);box-shadow:0 0 12px rgba(var(--acc-rgb),.25), 0 2px 6px rgba(0,0,0,.4)}
-.label h4{margin:0 0 4px;font-weight:400;font-size:19px}
-.label ul{margin:0;padding:0;list-style:none;font-size:13px;line-height:1.35}
-.label ul li{margin-bottom:3px}
-.label ul li::before{content:"☐ "}
-/* back label with the cards you can pull, one row per rarity */
-.label.has-pulls{display:flex;flex-direction:column;gap:5px;padding:8px 10px;left:12px;right:12px;top:10px;bottom:10px}
-.pull{flex:1 1 0;min-height:0;display:flex;align-items:center;gap:6px}
-.pull + .pull{border-top:1.5px dashed rgba(var(--acc-rgb),.35);padding-top:5px}
-.pull h4{flex:none;width:70px;margin:0;font-size:11.5px;line-height:1.15;white-space:nowrap}
-.pull h4 .sym{display:block;font-size:15px;line-height:1}
-.pull h4 .odds{display:block;margin-top:2px;font-family:Bungee, Outfit, sans-serif;font-size:10.5px;letter-spacing:.5px;color:#fff3c4;text-shadow:0 0 6px rgba(var(--acc-rgb),.6)}
-.pull-cards{flex:1;align-self:stretch;min-height:0;display:flex;justify-content:center;gap:12px}
-.pull-cards img{display:block;height:100%;width:auto;aspect-ratio:63/88;object-fit:cover;border-radius:3px;background:#e4e6ed;box-shadow:0 2px 5px rgba(0,0,0,.3);cursor:zoom-in;-webkit-user-drag:none}
-.pull-cards img:nth-child(odd){transform:rotate(-3deg)}
-.pull-cards img:nth-child(even){transform:rotate(3deg)}
-.barcode{position:absolute;left:16px;bottom:14px;width:104px;height:40px;padding:0 0 11px}
-.barcode i{display:block;height:100%;background:repeating-linear-gradient(90deg,rgb(var(--acc-rgb)) 0 2px,transparent 2px 3px,rgb(var(--acc-rgb)) 3px 4px,transparent 4px 7px,rgb(var(--acc-rgb)) 7px 10px,transparent 10px 11px)}
-.barcode small{position:absolute;left:0;right:0;bottom:0;font-size:8px;text-align:center;color:rgb(var(--acc-rgb));letter-spacing:2px}
-.label .no{position:absolute;right:16px;bottom:16px;font-size:18px;transform:rotate(-6deg)}
-
 .view-btns{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
 .chip{background:#fff;border:2px solid var(--line);font-weight:600;border-radius:999px;padding:6px 14px;font-size:14px;color:var(--muted)}
 .chip:hover,.chip[aria-pressed=true]{color:var(--text);border-color:var(--blue)}
@@ -151,9 +130,6 @@ a{color:var(--blue)}
 .price small{font-size:15px;font-weight:400;color:var(--muted);margin-left:6px}
 .desc{color:var(--muted);margin:0 0 20px;max-width:46ch}
 .contents{background:var(--panel);border:2px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:22px}
-.rates li::before{display:none}
-.rates .sym{width:14px;text-align:center;color:var(--blue)}
-.rates b{margin-left:auto;font-weight:800}
 .contents h2{font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin:0 0 8px;font-weight:600}
 .contents ul{margin:0;padding:0;list-style:none;display:grid;gap:6px}
 .contents li{display:flex;gap:10px;align-items:center}
@@ -235,7 +211,6 @@ pre.order{white-space:pre-wrap;background:var(--panel);border:1px solid var(--li
 .real-note .check{margin-top:1px}
 .real-chip{display:inline-flex;align-items:center;gap:5px;margin-top:6px;font-size:13px;font-weight:700;color:#14532d}
 .real-chip .check{width:16px;height:16px;font-size:10px}
-.zoom-real{display:block;margin-top:4px;font-size:13px;font-weight:700;color:#7ee2a4}
 .crumb{display:inline-block;color:var(--muted);text-decoration:none;font-weight:600;padding:4px 0}
 .crumb:hover{color:var(--text)}
 .detail-top{padding-top:4px}
@@ -254,33 +229,13 @@ pre.order{white-space:pre-wrap;background:var(--panel);border:1px solid var(--li
   .sticker{left:11px;right:11px;top:11px;bottom:34px}
   .badge{width:42px;height:42px;font-size:7.5px}
   .print{font-size:11px;bottom:10px}
-  .label{left:10px;right:10px;top:12px;bottom:16px;padding:10px 12px}
-  .label.has-pulls{padding:6px 8px;gap:4px;left:9px;right:9px;top:8px;bottom:8px}
-  .pull + .pull{padding-top:4px}
-  .label .pull h4{font-size:9px;width:54px}
-  .label .pull h4 .sym{font-size:12px}
-  .label .pull h4 .odds{font-size:8.5px;margin-top:1px}
-  .pull-cards{gap:8px}
-  .label h4{font-size:15px}
-  .label ul{font-size:10.5px}
-  .barcode{width:84px;height:34px;left:12px;bottom:10px}
   .brand{font-size:16px}
   .topbar::after{display:none}
   .topbar{margin-bottom:22px}
 }
-/* zooming into a card from the back of the pack */
-dialog.zoom{background:transparent;border:0;padding:0;width:auto;max-width:none;max-height:none;overflow:visible}
-dialog.zoom::backdrop{background:rgba(12,12,20,.82)}
-.zoom-wrap{display:flex;flex-direction:column;align-items:center;gap:14px}
-.zoom-card{display:block;width:min(400px, calc(100vw - 32px), calc((100vh - 150px) * 63 / 88));aspect-ratio:63/88;border-radius:4.5% / 3.2%;box-shadow:0 24px 60px rgba(0,0,0,.55);animation:zoomIn .38s cubic-bezier(.2,.8,.2,1)}
-@keyframes zoomIn{from{transform:scale(.35) rotate(-6deg);opacity:0}to{transform:none;opacity:1}}
-.zoom-bar{display:flex;align-items:center;gap:14px;color:#fff}
-.zoom-cap{text-align:center;min-width:180px}
-.zoom-cap b{display:block;font-size:17px}
-.zoom-cap span{font-size:14px;opacity:.85}
+/* round buttons for zooming the pack */
 .zoom-btn{flex:none;width:46px;height:46px;border-radius:50%;border:0;background:#fff;color:var(--black);font-size:22px;font-weight:800;box-shadow:0 3px 0 #b9bcc8}
 .zoom-btn:active{transform:translateY(2px);box-shadow:0 1px 0 #b9bcc8}
-.zoom-close{position:fixed;top:14px;right:14px}
 
 /* zooming into the pack */
 .stage .box{cursor:zoom-in}
@@ -291,7 +246,6 @@ dialog.zoom::backdrop{background:rgba(12,12,20,.82)}
 .stage.wheeling .zoomer{transition:transform .08s linear}
 .stage.zoomed::before,.stage.zoomed .shadow{display:none}
 .stage.zoomed .box{cursor:pointer}
-.stage.zoomed .pull-cards img{cursor:zoom-in}
 body.pack-zoomed{overflow:hidden}
 body.pack-zoomed .wrap{z-index:30}
 .stage-close,.stage-bar{display:none}
@@ -303,7 +257,7 @@ body.pack-zoomed .wrap{z-index:30}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 
 @media (prefers-reduced-motion: reduce){
-  .floater,.shadow,.zoom-card,.stage.zoomed{animation:none}
+  .floater,.shadow,.stage.zoomed{animation:none}
   .zoomer{transition:none}
 }
 </style>
@@ -338,19 +292,6 @@ body.pack-zoomed .wrap{z-index:30}
     <button class="primary" id="checkoutBtn">Send order request</button>
   </div>
 </aside>
-
-<!-- zoom into a card you can pull -->
-<dialog id="zoom" class="zoom" aria-label="Card close-up">
-  <button class="zoom-btn zoom-close" id="zoomClose" aria-label="Close">×</button>
-  <div class="zoom-wrap">
-    <img class="zoom-card" id="zoomImg" alt="">
-    <div class="zoom-bar">
-      <button class="zoom-btn" id="zoomPrev" aria-label="Previous card">‹</button>
-      <div class="zoom-cap" id="zoomCap"></div>
-      <button class="zoom-btn" id="zoomNext" aria-label="Next card">›</button>
-    </div>
-  </div>
-</dialog>
 
 <!-- checkout -->
 <dialog id="checkout">
@@ -403,25 +344,6 @@ const PRODUCTS = [
     accent: '#f5c542',           // glow color for this pack
     description: 'A handmade booster pack for Umbreon fans, filled with real Pokémon cards. Each one is packed by hand and crimp-sealed in a shiny foil pack.',
     contents: ['7 real Pokémon cards (no fakes or fan cards)', '1 real Umbreon card, guaranteed', 'Crimp-sealed foil pack'],
-    // cards you can pull, shown on the back of the pack
-    pulls: [
-      { label: 'Commons', symbol: '●', odds: '75%', cards: [
-        { name: 'Umbreon', set: 'Prismatic Evolutions', number: '059/131', img: 'https://images.pokemontcg.io/sv8pt5/59.png' },
-        { name: 'Umbreon', set: 'Obsidian Flames', number: '130/197', img: 'https://images.pokemontcg.io/sv3/130.png' },
-      ]},
-      { label: 'Uncommons', symbol: '◆', odds: '20%', cards: [
-        { name: 'Umbreon V', set: 'Evolving Skies', number: '094/203', img: 'https://images.pokemontcg.io/swsh7/94.png' },
-        { name: 'Umbreon V', set: 'Black Star Promo', number: 'SWSH203', img: 'https://images.pokemontcg.io/swshp/SWSH203.png' },
-      ]},
-      { label: 'Rares', symbol: '★', odds: '4.9%', cards: [
-        { name: 'Umbreon', set: 'Lost Thunder', number: '120/214', img: 'https://images.pokemontcg.io/sm8/120.png' },
-        { name: 'Umbreon', set: 'Dark Explorers', number: '60/108', img: 'https://images.pokemontcg.io/bw5/60.png' },
-      ]},
-      { label: 'Legendaries', one: 'Legendary', symbol: '✪', odds: '0.1%', cards: [
-        { name: 'Umbreon V', set: 'Brilliant Stars Trainer Gallery', number: 'TG22/TG30', img: 'https://images.pokemontcg.io/swsh9tg/TG22.png' },
-        { name: 'Umbreon EX', set: 'Fates Collide', number: '119/124', img: 'https://images.pokemontcg.io/xy10/119.png' },
-      ]},
-    ],
     maxPerOrder: 10,
     hidden: false,
     art: umbreonArt,
@@ -442,25 +364,6 @@ const PRODUCTS = [
     },
     description: 'A handmade booster pack for Charizard fans, filled with real Pokémon cards from the whole Charmander line. Each one is packed by hand and crimp-sealed in a shiny foil pack.',
     contents: ['7 real Pokémon cards (no fakes or fan cards)', '1 real Charmander, Charmeleon or Charizard card, guaranteed', 'Crimp-sealed foil pack'],
-    // cards you can pull, shown on the back of the pack
-    pulls: [
-      { label: 'Commons', symbol: '●', odds: '75%', cards: [
-        { name: 'Charmander', set: 'Base Set', number: '46/102', img: 'https://assets.tcgdex.net/en/base/base1/46/low.webp', big: 'https://assets.tcgdex.net/en/base/base1/46/high.webp' },
-        { name: 'Charmander', set: '151', number: '004/165', img: 'https://assets.tcgdex.net/en/sv/sv03.5/004/low.webp', big: 'https://assets.tcgdex.net/en/sv/sv03.5/004/high.webp' },
-      ]},
-      { label: 'Uncommons', symbol: '◆', odds: '20%', cards: [
-        { name: 'Charmeleon', set: 'Base Set', number: '24/102', img: 'https://assets.tcgdex.net/en/base/base1/24/low.webp', big: 'https://assets.tcgdex.net/en/base/base1/24/high.webp' },
-        { name: 'Charmeleon', set: '151', number: '005/165', img: 'https://assets.tcgdex.net/en/sv/sv03.5/005/low.webp', big: 'https://assets.tcgdex.net/en/sv/sv03.5/005/high.webp' },
-      ]},
-      { label: 'Rares', symbol: '★', odds: '4.9%', cards: [
-        { name: 'Charizard', set: 'Legendary Collection', number: '3/110', img: 'https://assets.tcgdex.net/en/lc/lc/3/low.webp', big: 'https://assets.tcgdex.net/en/lc/lc/3/high.webp' },
-        { name: 'Charizard', set: 'Pokémon GO', number: '010/078', img: 'https://assets.tcgdex.net/en/swsh/swsh10.5/010/low.webp', big: 'https://assets.tcgdex.net/en/swsh/swsh10.5/010/high.webp' },
-      ]},
-      { label: 'Legendaries', one: 'Legendary', symbol: '✪', odds: '0.1%', cards: [
-        { name: 'Charizard ex', set: '151', number: '199/165', img: 'https://assets.tcgdex.net/en/sv/sv03.5/199/low.webp', big: 'https://assets.tcgdex.net/en/sv/sv03.5/199/high.webp' },
-        { name: 'Charizard ex', set: 'Obsidian Flames', number: '223/197', img: 'https://assets.tcgdex.net/en/sv/sv03/223/low.webp', big: 'https://assets.tcgdex.net/en/sv/sv03/223/high.webp' },
-      ]},
-    ],
     maxPerOrder: 10,
     hidden: false,
     art: charizardArt,
@@ -481,25 +384,6 @@ const PRODUCTS = [
     },
     description: 'A handmade booster pack for Steel-type fans. Every card inside is a real Steel-type Pokémon card — nothing else gets in. Packed by hand and crimp-sealed in a shiny foil pack.',
     contents: ['7 real Pokémon cards (no fakes or fan cards)', 'Steel-type Pokémon only', 'Crimp-sealed foil pack'],
-    // cards you can pull, shown on the back of the pack
-    pulls: [
-      { label: 'Commons', symbol: '●', odds: '75%', cards: [
-        { name: 'Klink', set: 'Stellar Crown', number: '099/142', img: 'https://assets.tcgdex.net/en/sv/sv07/099/low.webp', big: 'https://assets.tcgdex.net/en/sv/sv07/099/high.webp' },
-        { name: 'Meltan', set: 'Obsidian Flames', number: '152/197', img: 'https://assets.tcgdex.net/en/sv/sv03/152/low.webp', big: 'https://assets.tcgdex.net/en/sv/sv03/152/high.webp' },
-      ]},
-      { label: 'Uncommons', symbol: '◆', odds: '20%', cards: [
-        { name: 'Klang', set: 'Silver Tempest', number: '124/195', img: 'https://assets.tcgdex.net/en/swsh/swsh12/124/low.webp', big: 'https://assets.tcgdex.net/en/swsh/swsh12/124/high.webp' },
-        { name: 'Excadrill', set: 'Obsidian Flames', number: '147/197', img: 'https://assets.tcgdex.net/en/sv/sv03/147/low.webp', big: 'https://assets.tcgdex.net/en/sv/sv03/147/high.webp' },
-      ]},
-      { label: 'Rares', symbol: '★', odds: '4.9%', cards: [
-        { name: 'Klinklang', set: 'Stellar Crown', number: '101/142', img: 'https://assets.tcgdex.net/en/sv/sv07/101/low.webp', big: 'https://assets.tcgdex.net/en/sv/sv07/101/high.webp' },
-        { name: 'Melmetal', set: 'Fusion Strike', number: '189/264', img: 'https://assets.tcgdex.net/en/swsh/swsh8/189/low.webp', big: 'https://assets.tcgdex.net/en/swsh/swsh8/189/high.webp' },
-      ]},
-      { label: 'Legendaries', one: 'Legendary', symbol: '✪', odds: '0.1%', cards: [
-        { name: 'Gholdengo ex', set: 'Prismatic Evolutions', number: '164/131', img: 'https://assets.tcgdex.net/en/sv/sv08.5/164/low.webp', big: 'https://assets.tcgdex.net/en/sv/sv08.5/164/high.webp' },
-        { name: "Steven's Metagross ex", set: 'Ascended Heroes', number: '289/217', img: 'https://assets.tcgdex.net/en/me/me02.5/289/low.webp', big: 'https://assets.tcgdex.net/en/me/me02.5/289/high.webp' },
-      ]},
-    ],
     maxPerOrder: 10,
     hidden: false,
     art: gearArt,
@@ -972,7 +856,6 @@ $('shopName').textContent = SHOP.name;
 let boxSeq = 0;
 function boxHTML(p) {
   const u = `b${++boxSeq}-`;
-  const list = p.contents.map(c => `<li>${esc(c)}</li>`).join('');
   return `
   <div class="box">
     <div class="pbody front foil">
@@ -984,24 +867,7 @@ function boxHTML(p) {
       <div class="badge">REAL<br>CARDS</div>
       <div class="print">${p.cardCount} CARDS</div>
     </div>
-    <div class="pbody back foil">
-      ${p.pulls && p.pulls.length ? `
-      <div class="label has-pulls">
-        ${p.pulls.map((g, gi) => `
-          <section class="pull">
-            <h4 class="marker"><span class="sym">${esc(g.symbol || '')}</span>${esc(g.label)}${g.odds ? `<span class="odds">${esc(g.odds)}</span>` : ''}</h4>
-            <div class="pull-cards">
-              ${g.cards.map((c, ci) => `<img data-g="${gi}" data-c="${ci}" src="${esc(c.img)}" alt="${esc(`${c.name}, ${c.set} ${c.number}`)}" title="${esc(`${c.name} · ${c.set} ${c.number}`)}" loading="lazy" draggable="false">`).join('')}
-            </div>
-          </section>`).join('')}
-      </div>` : `
-      <div class="label">
-        <h4 class="marker">What's inside:</h4>
-        <ul class="marker">${list}</ul>
-        <div class="barcode"><i></i><small>${esc(p.id.toUpperCase())}</small></div>
-        <div class="marker no">#${esc(p.number)}</div>
-      </div>`}
-    </div>
+    <div class="pbody back foil"></div>
     <div class="side right foil"></div>
     <div class="side left foil"></div>
     <div class="edge top foil"></div>
@@ -1047,7 +913,7 @@ function renderProduct(p) {
               <button class="zoom-btn" id="zoomMinus" aria-label="Zoom out more">−</button>
               <span class="zoom-level" id="zoomLevel">100%</span>
               <button class="zoom-btn" id="zoomPlus" aria-label="Zoom in more">+</button>
-              <span>Scroll to zoom · drag to turn · click a card on the back to see it big</span>
+              <span>Scroll to zoom · drag to turn the pack</span>
             </div>
           </div>
         </div>
@@ -1068,11 +934,6 @@ function renderProduct(p) {
           <h2>What's inside</h2>
           <ul>${p.contents.map(c => `<li>${esc(c)}</li>`).join('')}</ul>
         </div>
-        ${p.pulls && p.pulls.some(g => g.odds) ? `
-        <div class="contents rates">
-          <h2>Pull rates (all real cards)</h2>
-          <ul>${p.pulls.filter(g => g.odds).map(g => `<li><span class="sym">${esc(g.symbol || '')}</span>${esc(g.one || g.label.replace(/s$/, ''))}<b>${esc(g.odds)}</b></li>`).join('')}</ul>
-        </div>` : ''}
         <div class="buy">
           <div class="qty" aria-label="Quantity">
             <button id="qMinus" aria-label="Fewer">−</button>
@@ -1082,10 +943,10 @@ function renderProduct(p) {
           <button class="primary" id="addBtn">Add to cart</button>
         </div>
         <p class="added" id="added" aria-live="polite"></p>
-        <p class="real-note"><span class="check">✔</span><span><b>Real cards only.</b> Every card in this pack is a real, official Pokémon trading card, like the ones on the back of the pack. No fakes, no proxies, no fan-made cards.</span></p>
+        <p class="real-note"><span class="check">✔</span><span><b>Real cards only.</b> Every card in this pack is a real, official Pokémon trading card. No fakes, no proxies, no fan-made cards.</span></p>
       </div>
     </section>`;
-  setupBox((g, c) => zoomCard(p, g, c));
+  setupBox();
   let pick = 1;
   $('qMinus').onclick = () => { pick = Math.max(1, pick - 1); $('qVal').textContent = pick; };
   $('qPlus').onclick = () => { pick = Math.min(p.maxPerOrder, pick + 1); $('qVal').textContent = pick; };
@@ -1097,39 +958,9 @@ function renderProduct(p) {
   };
 }
 
-/* ---- zoom into a card from the back of the pack ---- */
-let zoomList = [], zoomAt = 0;
-function zoomCard(p, g, c) {
-  zoomList = p.pulls.flatMap(grp => grp.cards.map(card => ({ ...card, rarity: grp.one || grp.label.replace(/s$/, ''), symbol: grp.symbol || '', odds: grp.odds || '' })));
-  zoomAt = p.pulls.slice(0, g).reduce((n, grp) => n + grp.cards.length, 0) + c;
-  showZoom();
-  if (!$('zoom').open) $('zoom').showModal();
-}
-function showZoom() {
-  const c = zoomList[zoomAt], img = $('zoomImg');
-  img.src = c.img;                                           // small picture right away...
-  img.alt = `${c.name}, ${c.set} ${c.number}`;
-  const big = c.big || c.img.replace(/\.png$/, '_hires.png'); // ...then the sharp one once it loads
-  const hi = new Image();
-  hi.onload = () => { if (zoomList[zoomAt] === c) img.src = big; };
-  hi.src = big;
-  img.style.animation = 'none'; img.offsetWidth; img.style.animation = '';
-  $('zoomCap').innerHTML = `<b>${esc(c.name)}</b><span>${esc(c.symbol)} ${esc(c.rarity)}${c.odds ? ` (${esc(c.odds)} chance)` : ''} · ${esc(c.set)} ${esc(c.number)}</span><span class="zoom-real">✔ Real, official Pokémon card</span>`;
-}
-const stepZoom = d => { zoomAt = (zoomAt + d + zoomList.length) % zoomList.length; showZoom(); };
-$('zoomPrev').onclick = () => stepZoom(-1);
-$('zoomNext').onclick = () => stepZoom(1);
-$('zoomClose').onclick = () => $('zoom').close();
-$('zoom').addEventListener('click', e => { if (e.target === $('zoom') || e.target.classList.contains('zoom-wrap')) $('zoom').close(); });
-$('zoom').addEventListener('keydown', e => {
-  if (e.key === 'ArrowLeft') stepZoom(-1);
-  if (e.key === 'ArrowRight') stepZoom(1);
-});
-
 function route() {
   closeCart();
   document.body.classList.remove('pack-zoomed');
-  if ($('zoom').open) $('zoom').close();
   const m = location.hash.match(/^#\/pack\/(.+)$/);
   const p = m && findProduct(decodeURIComponent(m[1]));
   if (p) renderProduct(p); else renderShop();
@@ -1137,10 +968,10 @@ function route() {
 }
 
 /* ---- spinning the pack on a pack page ---- */
-function setupBox(onCard) {
+function setupBox() {
   const stage = $('stage'), box = stage.querySelector('.box');
   let rx = -12, ry = -28, dragging = false, lastX = 0, lastY = 0;
-  let startX = 0, startY = 0, onBox = false, downCard = null;
+  let startX = 0, startY = 0, onBox = false;
   const apply = () => {
     box.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`;
     box.style.setProperty('--sheen', `${50 + Math.sin(ry * Math.PI / 180) * 45}%`); // light slides across the foil
@@ -1215,7 +1046,6 @@ function setupBox(onCard) {
     if (touches.size === 1) pinched = false;
     dragging = true; lastX = startX = e.clientX; lastY = startY = e.clientY;
     onBox = !!e.target.closest('.box');
-    downCard = e.target.closest('.pull-cards img');
     box.classList.remove('ease');
     stage.setPointerCapture(e.pointerId);
   });
@@ -1237,14 +1067,11 @@ function setupBox(onCard) {
   });
   const endDrag = e => { dragging = false; if (e) touches.delete(e.pointerId); if (touches.size < 2) pinchDist = 0; };
   stage.addEventListener('pointerup', e => {
-    // a click (not a drag): first click on the pack zooms in; once zoomed, a card on the back
-    // shows that card big and the empty space around zooms back out.
+    // a click (not a drag) on the pack zooms in; clicking the space around it zooms back out
     const moved = Math.hypot(e.clientX - startX, e.clientY - startY);
-    const backFacing = Math.cos(ry * Math.PI / 180) < 0;
     if (dragging && moved < 6 && !pinched) {
       if (!stage.classList.contains('zoomed')) { if (onBox) zoomIn(); }
       else if (!onBox) zoomOut();
-      else if (downCard && backFacing) onCard(+downCard.dataset.g, +downCard.dataset.c);
     }
     endDrag(e);
   });

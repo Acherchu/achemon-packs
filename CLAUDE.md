@@ -11,10 +11,10 @@ type only), $9 and 7 cards each.
 Each pack's foil/trim colors come from its `theme` in `PRODUCTS` (CSS variables `--acc-rgb`,
 `--f1`…`--f5`, glows, sparkles; defaults in `:root` are Umbreon's). Art is a hand-built SVG function
 per pack (`umbreonArt`, `charizardArt`, `gearArt` — the last is generated metal gears, no Pokémon).
-Charizard's pulls are the Charmander line (Charmander commons, Charmeleon uncommons, Charizard
-rares/legendaries); the Gear Pack's are Metal-type only (Klink line, Meltan/Melmetal, Excadrill,
-Gholdengo ex, Steven's Metagross ex). Card pictures are TCGdex URLs (`img` + `big`); check a card's
-`types` include `Metal` before adding it to the Gear Pack — some Magnemite-line cards are Lightning.
+
+The back of every pack is **plain foil** on purpose: Archer asked for the rarity rows, the card
+pictures, the pull rates and the card close-up to be removed (they existed earlier — don't add them
+back unless asked).
 
 ## Files
 
