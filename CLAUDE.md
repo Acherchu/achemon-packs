@@ -4,13 +4,16 @@
 [Acherchu/achemon-packs](https://github.com/Acherchu/achemon-packs). Pushing to `main` redeploys it;
 a build takes about a minute.
 
-A shop site for Archer's handmade Pokémon booster packs (real cards inside). It sells the
-**Umbreon Pack** (No. 001), the **Charizard Pack** (No. 002) and the **Gear Pack** (No. 003, Steel
-type only), $9 and 7 cards each.
+A shop site for Archer's handmade Pokémon booster packs (real cards inside). Six **type packs**,
+$9 and 7 cards each, and each one only holds cards of its type:
+Flames (001, Fire), Aqua (002, Water), Nature (003, Grass), Shadow (004, Dark), Neutral (005, Normal),
+Gear (006, Steel). The old Umbreon and Charizard packs were removed on request.
 
 Each pack's foil/trim colors come from its `theme` in `PRODUCTS` (CSS variables `--acc-rgb`,
 `--f1`…`--f5`, glows, sparkles; defaults in `:root` are Umbreon's). Art is a hand-built SVG function
-per pack (`umbreonArt`, `charizardArt`, `gearArt` — the last is generated metal gears, no Pokémon).
+per pack. They're all **emblems, not Pokémon** (`flamesArt`, `aquaArt`, `natureArt`, `shadowArt`,
+`neutralArt` share the `elementalArt(u, opts)` builder — background, halo, dust, emblem; `gearArt`
+draws generated metal gears).
 
 The back of every pack is **plain foil** on purpose: Archer asked for the rarity rows, the card
 pictures, the pull rates and the card close-up to be removed (they existed earlier — don't add them
