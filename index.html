@@ -465,6 +465,45 @@ const PRODUCTS = [
     hidden: false,
     art: charizardArt,
   },
+  {
+    id: 'gear-003',
+    title: 'Gear',
+    name: 'Gear Pack',
+    number: '003',
+    price: 9.00,
+    cardCount: 7,
+    accent: '#cfe0f5',
+    theme: {                      // steel foil: gunmetal plate with a cold silver shine
+      'acc-rgb': '203,219,240', 'sheen-rgb': '235,245,255',
+      spark1: 'rgba(222,240,255,.6)', spark2: 'rgba(140,190,240,.42)',
+      glow1: 'rgba(120,160,220,.36)', glow2: 'rgba(205,225,250,.26)',
+      f1: '#232a36', f2: '#3d4759', f3: '#171b24', f4: '#313a4a', f5: '#10141b',
+    },
+    description: 'A handmade booster pack for Steel-type fans. Every card inside is a real Steel-type Pokémon card — nothing else gets in. Packed by hand and crimp-sealed in a shiny foil pack.',
+    contents: ['7 real Pokémon cards (no fakes or fan cards)', 'Steel-type Pokémon only', 'Crimp-sealed foil pack'],
+    // cards you can pull, shown on the back of the pack
+    pulls: [
+      { label: 'Commons', symbol: '●', odds: '75%', cards: [
+        { name: 'Klink', set: 'Stellar Crown', number: '099/142', img: 'https://assets.tcgdex.net/en/sv/sv07/099/low.webp', big: 'https://assets.tcgdex.net/en/sv/sv07/099/high.webp' },
+        { name: 'Meltan', set: 'Obsidian Flames', number: '152/197', img: 'https://assets.tcgdex.net/en/sv/sv03/152/low.webp', big: 'https://assets.tcgdex.net/en/sv/sv03/152/high.webp' },
+      ]},
+      { label: 'Uncommons', symbol: '◆', odds: '20%', cards: [
+        { name: 'Klang', set: 'Silver Tempest', number: '124/195', img: 'https://assets.tcgdex.net/en/swsh/swsh12/124/low.webp', big: 'https://assets.tcgdex.net/en/swsh/swsh12/124/high.webp' },
+        { name: 'Excadrill', set: 'Obsidian Flames', number: '147/197', img: 'https://assets.tcgdex.net/en/sv/sv03/147/low.webp', big: 'https://assets.tcgdex.net/en/sv/sv03/147/high.webp' },
+      ]},
+      { label: 'Rares', symbol: '★', odds: '4.9%', cards: [
+        { name: 'Klinklang', set: 'Stellar Crown', number: '101/142', img: 'https://assets.tcgdex.net/en/sv/sv07/101/low.webp', big: 'https://assets.tcgdex.net/en/sv/sv07/101/high.webp' },
+        { name: 'Melmetal', set: 'Fusion Strike', number: '189/264', img: 'https://assets.tcgdex.net/en/swsh/swsh8/189/low.webp', big: 'https://assets.tcgdex.net/en/swsh/swsh8/189/high.webp' },
+      ]},
+      { label: 'Legendaries', one: 'Legendary', symbol: '✪', odds: '0.1%', cards: [
+        { name: 'Gholdengo ex', set: 'Prismatic Evolutions', number: '164/131', img: 'https://assets.tcgdex.net/en/sv/sv08.5/164/low.webp', big: 'https://assets.tcgdex.net/en/sv/sv08.5/164/high.webp' },
+        { name: "Steven's Metagross ex", set: 'Ascended Heroes', number: '289/217', img: 'https://assets.tcgdex.net/en/me/me02.5/289/low.webp', big: 'https://assets.tcgdex.net/en/me/me02.5/289/high.webp' },
+      ]},
+    ],
+    maxPerOrder: 10,
+    hidden: false,
+    art: gearArt,
+  },
 ];
 /* =============================================================== */
 
@@ -804,6 +843,116 @@ function charizardArt(u) {
       </g>
       <path d="M41 53 C31 47 21 38 10 24 C18 40 22 44 30 50 C20 48 10 48 -2 52 C12 54 24 56 34 58 C37 57 40 55 41 53 Z" fill="url(#${u}fire)"/>
       <path d="M40 53 C33 49 26 44 18 36 C24 44 28 48 33 52 C27 52 20 53 12 55 C20 56 28 57 35 57 Z" fill="#fff6d0" opacity=".85"/>
+    </g>
+  </svg>`;
+}
+
+// Sticker art for the Gear Pack: interlocking steel gears on a riveted metal plate.
+// u = unique id prefix so several packs can share a page.
+function gearArt(u) {
+  // one gear: teeth around the rim, a hub in the middle
+  const gear = (cx, cy, r, teeth, tooth, spin) => {
+    const step = Math.PI / teeth, out = r + tooth;
+    let d = '';
+    for (let i = 0; i < teeth; i++) {
+      const a = spin + i * 2 * step;
+      const p = (rad, ang) => `${(cx + rad * Math.cos(ang)).toFixed(1)} ${(cy + rad * Math.sin(ang)).toFixed(1)}`;
+      d += `${i ? 'L' : 'M'}${p(r, a - step * 0.52)} L${p(out, a - step * 0.3)} L${p(out, a + step * 0.3)} L${p(r, a + step * 0.52)} `;
+      d += `A${r} ${r} 0 0 1 ${p(r, a + step * 1.48)} `;
+    }
+    return d + 'Z';
+  };
+  let rivets = '';
+  [[16, 16], [184, 16], [16, 214], [184, 214], [100, 12], [100, 218]].forEach(([x, y]) => {
+    rivets += `<circle cx="${x}" cy="${y}" r="4.6" fill="url(#${u}steel)" stroke="#2b3444" stroke-width=".8"/>
+      <circle cx="${x - 1}" cy="${y - 1.2}" r="1.6" fill="#f2f7ff" opacity=".65"/>`;
+  });
+  let sparks = '';
+  let seed = 5;
+  const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  for (let i = 0; i < 40; i++) {
+    const x = (rnd() * 200).toFixed(1), y = (rnd() * 230).toFixed(1);
+    sparks += `<circle cx="${x}" cy="${y}" r="${(0.3 + rnd()).toFixed(2)}" fill="${rnd() < .6 ? '#dff1ff' : '#9fd8ff'}" opacity="${(0.3 + rnd() * 0.6).toFixed(2)}"/>`;
+  }
+  return `
+  <svg viewBox="0 0 200 230" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Steel gears turning on a metal plate">
+    <defs>
+      <linearGradient id="${u}plate" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#2c3648"/><stop offset=".45" stop-color="#3d4a60"/>
+        <stop offset=".75" stop-color="#232b3a"/><stop offset="1" stop-color="#161c28"/>
+      </linearGradient>
+      <linearGradient id="${u}steel" gradientUnits="userSpaceOnUse" x1="30" y1="30" x2="170" y2="190">
+        <stop offset="0" stop-color="#f4f8ff"/><stop offset=".3" stop-color="#b9c6da"/>
+        <stop offset=".55" stop-color="#7d8ca4"/><stop offset=".8" stop-color="#aebdd3"/><stop offset="1" stop-color="#5a6879"/>
+      </linearGradient>
+      <linearGradient id="${u}steelDark" gradientUnits="userSpaceOnUse" x1="60" y1="20" x2="180" y2="160">
+        <stop offset="0" stop-color="#9aa8bd"/><stop offset=".5" stop-color="#65728a"/><stop offset="1" stop-color="#3b4557"/>
+      </linearGradient>
+      <radialGradient id="${u}shine" cx=".38" cy=".32" r=".7">
+        <stop offset="0" stop-color="#cfe6ff" stop-opacity=".55"/><stop offset="1" stop-color="#7fb4ff" stop-opacity="0"/>
+      </radialGradient>
+      <filter id="${u}glow" x="-60%" y="-60%" width="220%" height="220%">
+        <feGaussianBlur stdDeviation="2.4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <filter id="${u}soft" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="1.6"/></filter>
+    </defs>
+
+    <!-- brushed metal plate -->
+    <rect width="200" height="230" fill="url(#${u}plate)"/>
+    <g stroke="#8fa2bd" stroke-width=".5" opacity=".14">
+      ${Array.from({ length: 26 }, (_, i) => `<path d="M${-20 + i * 10} 240 L${40 + i * 10} -10"/>`).join('')}
+    </g>
+    <ellipse cx="96" cy="104" rx="92" ry="86" fill="url(#${u}shine)"/>
+    ${sparks}
+    ${rivets}
+    <rect x="10" y="10" width="180" height="210" rx="10" fill="none" stroke="#8ea0bb" stroke-width="1.4" opacity=".45"/>
+
+    <!-- gears -->
+    <g stroke="#1d2431" stroke-width="1.6" stroke-linejoin="round">
+      <!-- small back gear -->
+      <g opacity=".9">
+        <path d="${gear(152, 62, 20, 9, 6, 0.2)}" fill="url(#${u}steelDark)"/>
+        <circle cx="152" cy="62" r="7" fill="#232b3a"/>
+        <circle cx="152" cy="62" r="3" fill="#0f141d" stroke="none"/>
+      </g>
+      <!-- low gear -->
+      <g opacity=".95">
+        <path d="${gear(50, 160, 24, 10, 7, 0.35)}" fill="url(#${u}steelDark)"/>
+        <circle cx="50" cy="160" r="9" fill="#232b3a"/>
+        <circle cx="50" cy="160" r="3.6" fill="#0f141d" stroke="none"/>
+      </g>
+      <!-- low right gear -->
+      <g opacity=".92">
+        <path d="${gear(156, 150, 19, 9, 6, 0.1)}" fill="url(#${u}steelDark)"/>
+        <circle cx="156" cy="150" r="7" fill="#232b3a"/>
+        <circle cx="156" cy="150" r="3" fill="#0f141d" stroke="none"/>
+      </g>
+      <!-- big front gear -->
+      <g filter="url(#${u}glow)">
+        <path d="${gear(98, 112, 50, 12, 13, 0)}" fill="url(#${u}steel)"/>
+      </g>
+      <circle cx="98" cy="112" r="33" fill="none" stroke="#2b3444" stroke-width="2"/>
+      <circle cx="98" cy="112" r="16" fill="#222a38"/>
+      <circle cx="98" cy="112" r="7" fill="#0d121a" stroke="none"/>
+      <!-- spokes + bolt holes on the big gear -->
+      <g fill="#2b3444" stroke="none">
+        ${Array.from({ length: 5 }, (_, i) => {
+          const a = i * (2 * Math.PI / 5) - 0.6;
+          return `<circle cx="${(98 + 25 * Math.cos(a)).toFixed(1)}" cy="${(112 + 25 * Math.sin(a)).toFixed(1)}" r="4.4"/>`;
+        }).join('')}
+      </g>
+    </g>
+    <!-- highlight along the top-left edges -->
+    <g fill="none" stroke="#eaf4ff" stroke-width="1.6" opacity=".5" filter="url(#${u}soft)">
+      <path d="M62 78 C72 66 86 60 100 60"/>
+      <path d="M40 140 C44 132 50 128 58 126"/>
+      <path d="M136 48 C142 42 148 40 156 40"/>
+    </g>
+    <!-- steam / spark bursts where the teeth meet -->
+    <g filter="url(#${u}glow)" fill="#dff1ff" opacity=".9">
+      <path d="M135 82 l2.6 -5 l1.2 5 l5 1.4 l-5 1.4 l-1.2 5 l-2.6 -5 l-5 -1.4 Z"/>
+      <path d="M66 146 l2 -4 l1 4 l4 1 l-4 1 l-1 4 l-2 -4 l-4 -1 Z"/>
+      <path d="M142 132 l2 -4 l1 4 l4 1 l-4 1 l-1 4 l-2 -4 l-4 -1 Z"/>
     </g>
   </svg>`;
 }
