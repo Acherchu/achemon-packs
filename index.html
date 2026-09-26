@@ -537,6 +537,27 @@ const PRODUCTS = [
     hidden: false,
     art: gearArt,
   },
+  {
+    id: 'micaiah-007',
+    title: 'Micaiah',
+    name: 'Micaiah Pack',
+    number: '007',
+    price: 0.01,
+    cardCount: 12,
+    accent: '#ffe07a',
+    theme: {                      // rainbow foil: every type's color
+      'acc-rgb': '255,224,122', 'sheen-rgb': '255,240,210',
+      spark1: 'rgba(255,255,255,.6)', spark2: 'rgba(160,220,255,.45)',
+      glow1: 'rgba(255,120,200,.36)', glow2: 'rgba(110,200,255,.32)',
+      f1: '#1c1638', f2: '#33285e', f3: '#120e26', f4: '#2a2150', f5: '#0a0818',
+    },
+    description: 'A booster pack with a mix of every type — any Pokémon could be inside. Crimp-sealed in a shiny foil pack.',
+    contents: ['12 real Pokémon cards (no fakes or fan cards)', 'Any type of Pokémon', 'Crimp-sealed foil pack'],
+    payLink: '',                 // Stripe Payment Link for this pack: https://buy.stripe.com/...
+    maxPerOrder: 10,
+    hidden: false,
+    art: micaiahArt,
+  },
 ];
 /* =============================================================== */
 
@@ -689,6 +710,33 @@ function neutralArt(u) {
         <path d="M46 156 L51 174 L69 179 L51 184 L46 202 L41 184 L23 179 L41 174 Z"/>
         <path d="M158 46 L162 60 L176 64 L162 68 L158 82 L154 68 L140 64 L154 60 Z"/>
       </g>`,
+  });
+}
+
+function micaiahArt(u) {
+  // a rainbow star-burst: every type's color, since any Pokémon can be inside
+  const types = ['#ee8130', '#6390f0', '#7ac74c', '#f7d02c', '#f95587', '#735797', '#96d9d6', '#a8a77a'];
+  const dots = types.map((c, i) => {
+    const a = i / types.length * Math.PI * 2 - Math.PI / 2;
+    return `<circle cx="${(100 + 70 * Math.cos(a)).toFixed(1)}" cy="${(108 + 70 * Math.sin(a)).toFixed(1)}" r="7" fill="${c}" stroke="#fff" stroke-width="1.6" filter="url(#${u}glow)"/>`;
+  }).join('');
+  const rays = Array.from({ length: 16 }, (_, i) => {
+    const a = i / 16 * Math.PI * 2, r1 = i % 2 ? 30 : 38, r2 = i % 2 ? 58 : 76;
+    return `M${(100 + r1 * Math.cos(a - .06)).toFixed(1)} ${(108 + r1 * Math.sin(a - .06)).toFixed(1)} L${(100 + r2 * Math.cos(a)).toFixed(1)} ${(108 + r2 * Math.sin(a)).toFixed(1)} L${(100 + r1 * Math.cos(a + .06)).toFixed(1)} ${(108 + r1 * Math.sin(a + .06)).toFixed(1)} Z`;
+  }).join(' ');
+  return elementalArt(u, {
+    seed: 71, label: 'A rainbow star-burst for every type', glow: '#ffe07a',
+    dust: ['#ffffff', '#ffe07a', '#9fe7f5', '#f7a8d8'],
+    bg: [['0', '#3a2a78'], ['.45', '#231a4f'], ['.8', '#110c2c'], ['1', '#080618']],
+    emblem: [['0', '#ff7a7a'], ['.2', '#ffd36b'], ['.4', '#8fe38f'], ['.6', '#7fd0ff'], ['.8', '#b58cff'], ['1', '#ff8ad8']],
+    back: `<g fill="none" stroke-width="3" opacity=".25">
+      <circle cx="100" cy="108" r="86" stroke="#ff8ad8"/><circle cx="100" cy="108" r="96" stroke="#7fd0ff"/></g>`,
+    art: id => `
+      <path d="${rays}" fill="url(#${id}em)" opacity=".85" filter="url(#${id}glow)"/>
+      <circle cx="100" cy="108" r="30" fill="url(#${id}em)" filter="url(#${id}glow)"/>
+      <circle cx="100" cy="108" r="19" fill="#fffaf0" opacity=".92"/>
+      <path d="M100 92 L104.5 103.5 L116 108 L104.5 112.5 L100 124 L95.5 112.5 L84 108 L95.5 103.5 Z" fill="#2a1f5c" opacity=".8"/>
+      ${dots}`,
   });
 }
 
