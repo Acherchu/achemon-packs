@@ -110,8 +110,6 @@ a{color:var(--blue)}
 .title-strip{position:absolute;left:0;right:0;bottom:0;padding:22px 10px 8px;text-align:center;background:linear-gradient(transparent, rgba(5,4,12,.92) 55%)}
 .title-strip b{display:block;font-family:Bungee, Outfit, sans-serif;font-weight:400;font-size:28px;line-height:1;color:var(--ring);letter-spacing:1px;text-shadow:0 0 12px rgba(var(--acc-rgb),.55)}
 .title-strip span{display:block;white-space:nowrap;font-size:9px;letter-spacing:2.5px;color:#cfc9e8;margin-top:3px}
-.badge{position:absolute;right:4px;top:2px;width:52px;height:52px;border-radius:50%;background:#101117;border:5px solid rgb(var(--acc-rgb));box-shadow:0 0 12px rgba(var(--acc-rgb),.6), 0 2px 5px rgba(0,0,0,.4);
-  display:grid;place-items:center;text-align:center;font-family:Bungee, Outfit, sans-serif;font-size:8.5px;line-height:1.05;color:rgb(var(--acc-rgb));transform:rotate(12deg)}
 .print{position:absolute;left:0;right:0;bottom:12px;text-align:center;font-family:Bungee, Outfit, sans-serif;font-size:13px;letter-spacing:3px;color:rgb(var(--acc-rgb));text-shadow:0 0 8px rgba(var(--acc-rgb),.6)}
 .marker{font-family:"Permanent Marker", "Comic Sans MS", cursive}
 
@@ -224,8 +222,6 @@ pre.order{white-space:pre-wrap;background:var(--panel);border:1px solid var(--li
 .check{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:#1f9d55;color:#fff;font-size:12px;font-weight:800;flex:none}
 .real-note{display:flex;gap:10px;align-items:flex-start;margin:14px 0 0;padding:12px 14px;border-radius:12px;background:#eaf7ef;border:2px solid #1f9d55;color:#14532d;font-size:14px;max-width:46ch}
 .real-note .check{margin-top:1px}
-.real-chip{display:inline-flex;align-items:center;gap:5px;margin-top:6px;font-size:13px;font-weight:700;color:#14532d}
-.real-chip .check{width:16px;height:16px;font-size:10px}
 .crumb{display:inline-block;color:var(--muted);text-decoration:none;font-weight:600;padding:4px 0}
 .crumb:hover{color:var(--text)}
 .detail-top{padding-top:4px}
@@ -242,7 +238,6 @@ pre.order{white-space:pre-wrap;background:var(--panel);border:1px solid var(--li
   .shadow{bottom:40px;width:190px}
   .title-strip b{font-size:22px}
   .sticker{left:11px;right:11px;top:11px;bottom:34px}
-  .badge{width:42px;height:42px;font-size:7.5px}
   .print{font-size:11px;bottom:10px}
   .brand{font-size:16px}
   .topbar::after{display:none}
@@ -825,7 +820,6 @@ function boxHTML(p) {
         <div class="title-strip"><b style="font-size:min(28px, calc(86cqw / ${(p.title.length * 0.82).toFixed(2)}))">${esc(p.title.toUpperCase())}</b><span>PACK · No. ${esc(p.number)}</span></div>
         <div class="corner"></div>
       </div>
-      <div class="badge">REAL<br>CARDS</div>
       <div class="print">${p.cardCount} CARDS</div>
     </div>
     <div class="pbody back foil"></div>
@@ -853,7 +847,7 @@ function renderShop() {
         <a class="card" href="#/pack/${encodeURIComponent(p.id)}" style="${accentStyle(p)}">
           <div class="card-stage"><div class="scaler">${boxHTML(p)}</div></div>
           <div class="card-body">
-            <div><b>${esc(p.name)}</b><small>No. ${esc(p.number)} · ${p.cardCount} real cards</small><span class="real-chip"><span class="check">✔</span> Real Pokémon cards</span><span class="card-view">View pack →</span></div>
+            <div><b>${esc(p.name)}</b><small>No. ${esc(p.number)} · ${p.cardCount} real cards</small><span class="card-view">View pack →</span></div>
             <div class="card-price">${money(p.price)}</div>
           </div>
         </a>`).join('')}
