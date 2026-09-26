@@ -361,8 +361,10 @@ const SHOP = {
     formspree: '',              // https://formspree.io/f/XXXXXXX
   },
 
-  // PAYMENT — a PayPal.me or Stripe payment link. Must belong to a grown-up (you have to be 18).
-  // PayPal.me links get the total added automatically: paypal.me/name/27.00
+  // PAYMENT — Stripe Payment Links (https://buy.stripe.com/...) or a PayPal.me link.
+  // Must belong to a grown-up (you have to be 18). Each pack can have its own payLink (below);
+  // this one is used when the cart has a mix of packs. Stripe gets the buyer's email and the
+  // order number passed along, so every payment in Stripe matches an order here.
   payLink: '',
 };
 
@@ -392,6 +394,7 @@ const PRODUCTS = [
     },
     description: 'A booster pack for Fire-type fans. Every card inside is a real Fire-type Pokémon card — nothing else gets in. Crimp-sealed in a shiny foil pack.',
     contents: ['12 real Pokémon cards (no fakes or fan cards)', 'Fire-type Pokémon only', 'Crimp-sealed foil pack'],
+    payLink: '',                 // Stripe Payment Link for this pack: https://buy.stripe.com/...
     maxPerOrder: 10,
     hidden: false,
     art: flamesArt,
@@ -419,6 +422,7 @@ const PRODUCTS = [
     },
     description: 'A booster pack for Water-type fans. Every card inside is a real Water-type Pokémon card — nothing else gets in. Crimp-sealed in a shiny foil pack.',
     contents: ['12 real Pokémon cards (no fakes or fan cards)', 'Water-type Pokémon only', 'Crimp-sealed foil pack'],
+    payLink: '',                 // Stripe Payment Link for this pack: https://buy.stripe.com/...
     maxPerOrder: 10,
     hidden: false,
     art: aquaArt,
@@ -446,6 +450,7 @@ const PRODUCTS = [
     },
     description: 'A booster pack for Grass-type fans. Every card inside is a real Grass-type Pokémon card — nothing else gets in. Crimp-sealed in a shiny foil pack.',
     contents: ['12 real Pokémon cards (no fakes or fan cards)', 'Grass-type Pokémon only', 'Crimp-sealed foil pack'],
+    payLink: '',                 // Stripe Payment Link for this pack: https://buy.stripe.com/...
     maxPerOrder: 10,
     hidden: false,
     art: natureArt,
@@ -473,6 +478,7 @@ const PRODUCTS = [
     },
     description: 'A booster pack for Dark-type fans. Every card inside is a real Dark-type Pokémon card — nothing else gets in. Crimp-sealed in a shiny foil pack.',
     contents: ['12 real Pokémon cards (no fakes or fan cards)', 'Dark-type Pokémon only', 'Crimp-sealed foil pack'],
+    payLink: '',                 // Stripe Payment Link for this pack: https://buy.stripe.com/...
     maxPerOrder: 10,
     hidden: false,
     art: shadowArt,
@@ -500,6 +506,7 @@ const PRODUCTS = [
     },
     description: 'A booster pack for Normal-type fans. Every card inside is a real Normal-type Pokémon card — nothing else gets in. Crimp-sealed in a shiny foil pack.',
     contents: ['12 real Pokémon cards (no fakes or fan cards)', 'Normal-type Pokémon only', 'Crimp-sealed foil pack'],
+    payLink: '',                 // Stripe Payment Link for this pack: https://buy.stripe.com/...
     maxPerOrder: 10,
     hidden: false,
     art: neutralArt,
@@ -527,6 +534,7 @@ const PRODUCTS = [
     },
     description: 'A booster pack for Steel-type fans. Every card inside is a real Steel-type Pokémon card — nothing else gets in. Crimp-sealed in a shiny foil pack.',
     contents: ['12 real Pokémon cards (no fakes or fan cards)', 'Steel-type Pokémon only', 'Crimp-sealed foil pack'],
+    payLink: '',                 // Stripe Payment Link for this pack: https://buy.stripe.com/...
     maxPerOrder: 10,
     hidden: false,
     art: gearArt,
@@ -1176,13 +1184,10 @@ $('orderForm').addEventListener('submit', async e => {
   $('doneMsg').textContent = sent
     ? `Thanks! Your order is in and your packs ship to ${d.oCity}.`
     : 'Your order is written out below — send it to the shop to finish.';
-  const total = grandTotal().toFixed(2);
-  const link = SHOP.payLink
-    ? (/paypal\.me\//i.test(SHOP.payLink) ? `${SHOP.payLink.replace(/\/$/, '')}/${total}` : SHOP.payLink)
-    : '';
-  $('payBox').innerHTML = link
-    ? `<div class="pay-box"><p>Last step: pay <b>${money(grandTotal())}</b> and put your order number <b>${esc(no)}</b> in the message.</p>
-       <a class="primary" href="${esc(link)}" target="_blank" rel="noopener">Pay ${money(grandTotal())}</a></div>`
+  const pay = paymentFor(no, d);
+  $('payBox').innerHTML = pay
+    ? `<div class="pay-box"><p>${pay.note}</p>
+       <a class="primary" href="${esc(pay.url)}" target="_blank" rel="noopener">${pay.stripe ? 'Pay with card' : 'Pay'} ${money(grandTotal())}</a></div>`
     : `<div class="pay-box"><p>The shop will send you a payment link for <b>${money(grandTotal())}</b>. Nothing is charged here.</p></div>`;
   showStep(2);
 });
@@ -1227,6 +1232,31 @@ async function sendOrder(no, d, text) {
     return true;
   }
   return false;                                                          // nowhere set up yet
+}
+
+// which payment link fits this cart: the pack's own link if it's all one pack, else the shop-wide one
+function paymentFor(no, d) {
+  const lines = cartLines();
+  const one = lines.length === 1 ? lines[0] : null;
+  const base = (one && one.p.payLink) || SHOP.payLink;
+  if (!base) return null;
+  const count = cartCount(), total = grandTotal().toFixed(2);
+  if (/buy\.stripe\.com\//i.test(base)) {
+    const u = new URL(base);
+    u.searchParams.set('prefilled_email', d.oEmail);
+    u.searchParams.set('client_reference_id', no);
+    return {
+      url: u.toString(), stripe: true,
+      note: count > 1
+        ? `Last step: on the card page, set the quantity to <b>${count}</b> so it matches your order (${money(grandTotal())}).`
+        : `Last step: pay <b>${money(grandTotal())}</b> by card on Stripe's secure page.`,
+    };
+  }
+  if (/paypal\.me\//i.test(base)) {
+    return { url: `${base.replace(/\/$/, '')}/${total}`, stripe: false,
+      note: `Last step: pay <b>${money(grandTotal())}</b> and put your order number <b>${esc(no)}</b> in the message.` };
+  }
+  return { url: base, stripe: false, note: `Last step: pay <b>${money(grandTotal())}</b>.` };
 }
 
 $('copyOrder').onclick = async () => {
