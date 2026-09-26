@@ -196,7 +196,8 @@ pre.order{white-space:pre-wrap;background:var(--panel);border:1px solid var(--li
 .order-no b{font-family:Bungee, Outfit, sans-serif;letter-spacing:1px}
 .pay-box{background:#eaf7ef;border:2px solid #1f9d55;border-radius:12px;padding:14px;margin-bottom:14px}
 .pay-box p{margin:0 0 10px;font-size:14px;color:#14532d}
-.pay-box .primary{background:#1f9d55;box-shadow:0 4px 0 #14532d;display:inline-flex;align-items:center;text-decoration:none}
+.pay-buttons{display:grid;gap:8px}
+.pay-box .primary{justify-content:center;background:#1f9d55;box-shadow:0 4px 0 #14532d;display:inline-flex;align-items:center;text-decoration:none}
 .pay-box .primary:active{box-shadow:0 1px 0 #14532d}
 .order-details{margin-bottom:6px}
 .order-details summary{cursor:pointer;font-weight:600;font-size:14px;color:var(--muted)}
@@ -389,7 +390,7 @@ const PRODUCTS = [
     },
     description: 'A booster pack for Fire-type fans. Every card inside is a real Fire-type Pokémon card — nothing else gets in. Crimp-sealed in a shiny foil pack.',
     contents: ['12 real Pokémon cards (no fakes or fan cards)', 'Fire-type Pokémon only', 'Crimp-sealed foil pack'],
-    payLink: '',                 // Stripe Payment Link for this pack: https://buy.stripe.com/...
+    payLink: 'https://buy.stripe.com/test_bJe3cv3eAbYa0AM7kO9EI00',                 // Stripe Payment Link for this pack: https://buy.stripe.com/...
     maxPerOrder: 10,
     hidden: false,
     art: flamesArt,
@@ -417,7 +418,7 @@ const PRODUCTS = [
     },
     description: 'A booster pack for Water-type fans. Every card inside is a real Water-type Pokémon card — nothing else gets in. Crimp-sealed in a shiny foil pack.',
     contents: ['12 real Pokémon cards (no fakes or fan cards)', 'Water-type Pokémon only', 'Crimp-sealed foil pack'],
-    payLink: '',                 // Stripe Payment Link for this pack: https://buy.stripe.com/...
+    payLink: 'https://buy.stripe.com/test_aFafZheXiaU6dnygVo9EI01',                 // Stripe Payment Link for this pack: https://buy.stripe.com/...
     maxPerOrder: 10,
     hidden: false,
     art: aquaArt,
@@ -445,7 +446,7 @@ const PRODUCTS = [
     },
     description: 'A booster pack for Grass-type fans. Every card inside is a real Grass-type Pokémon card — nothing else gets in. Crimp-sealed in a shiny foil pack.',
     contents: ['12 real Pokémon cards (no fakes or fan cards)', 'Grass-type Pokémon only', 'Crimp-sealed foil pack'],
-    payLink: '',                 // Stripe Payment Link for this pack: https://buy.stripe.com/...
+    payLink: 'https://buy.stripe.com/test_eVqcN516sfam4R27kO9EI02',                 // Stripe Payment Link for this pack: https://buy.stripe.com/...
     maxPerOrder: 10,
     hidden: false,
     art: natureArt,
@@ -473,7 +474,7 @@ const PRODUCTS = [
     },
     description: 'A booster pack for Dark-type fans. Every card inside is a real Dark-type Pokémon card — nothing else gets in. Crimp-sealed in a shiny foil pack.',
     contents: ['12 real Pokémon cards (no fakes or fan cards)', 'Dark-type Pokémon only', 'Crimp-sealed foil pack'],
-    payLink: '',                 // Stripe Payment Link for this pack: https://buy.stripe.com/...
+    payLink: 'https://buy.stripe.com/test_7sYeVd6qM6DQbfq48C9EI03',                 // Stripe Payment Link for this pack: https://buy.stripe.com/...
     maxPerOrder: 10,
     hidden: false,
     art: shadowArt,
@@ -501,7 +502,7 @@ const PRODUCTS = [
     },
     description: 'A booster pack for Normal-type fans. Every card inside is a real Normal-type Pokémon card — nothing else gets in. Crimp-sealed in a shiny foil pack.',
     contents: ['12 real Pokémon cards (no fakes or fan cards)', 'Normal-type Pokémon only', 'Crimp-sealed foil pack'],
-    payLink: '',                 // Stripe Payment Link for this pack: https://buy.stripe.com/...
+    payLink: 'https://buy.stripe.com/test_28E3cv4iE9Q20AMax09EI04',                 // Stripe Payment Link for this pack: https://buy.stripe.com/...
     maxPerOrder: 10,
     hidden: false,
     art: neutralArt,
@@ -529,7 +530,7 @@ const PRODUCTS = [
     },
     description: 'A booster pack for Steel-type fans. Every card inside is a real Steel-type Pokémon card — nothing else gets in. Crimp-sealed in a shiny foil pack.',
     contents: ['12 real Pokémon cards (no fakes or fan cards)', 'Steel-type Pokémon only', 'Crimp-sealed foil pack'],
-    payLink: '',                 // Stripe Payment Link for this pack: https://buy.stripe.com/...
+    payLink: 'https://buy.stripe.com/test_6oUdR98yU0fs5V6eNg9EI05',                 // Stripe Payment Link for this pack: https://buy.stripe.com/...
     maxPerOrder: 10,
     hidden: false,
     art: gearArt,
@@ -1178,10 +1179,11 @@ $('orderForm').addEventListener('submit', async e => {
   $('doneMsg').textContent = sent
     ? `Thanks! Your order is in and your packs ship to ${d.oCity}.`
     : 'Your order is written out below — send it to the shop to finish.';
-  const pay = paymentFor(no, d);
-  $('payBox').innerHTML = pay
-    ? `<div class="pay-box"><p>${pay.note}</p>
-       <a class="primary" href="${esc(pay.url)}" target="_blank" rel="noopener">${pay.stripe ? 'Pay with card' : 'Pay'} ${money(grandTotal())}</a></div>`
+  const pays = paymentsFor(no, d);
+  const needsQty = pays.some(x => x.qty > 1);
+  $('payBox').innerHTML = pays.length
+    ? `<div class="pay-box"><p>Last step: pay by card on Stripe's secure page.${pays.length > 1 ? ' Each kind of pack has its own button.' : ''}${needsQty ? ' Set the quantity on the card page to match.' : ''}</p>
+       <div class="pay-buttons">${pays.map(x => `<a class="primary" href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.label)}</a>`).join('')}</div></div>`
     : `<div class="pay-box"><p>The shop will send you a payment link for <b>${money(grandTotal())}</b>. Nothing is charged here.</p></div>`;
   showStep(2);
 });
@@ -1228,29 +1230,30 @@ async function sendOrder(no, d, text) {
   return false;                                                          // nowhere set up yet
 }
 
-// which payment link fits this cart: the pack's own link if it's all one pack, else the shop-wide one
-function paymentFor(no, d) {
+// Pay buttons for this cart: each kind of pack pays through its own Stripe link.
+// Stripe gets the buyer's email and the order number, so each payment matches the order.
+function stripeUrl(base, no, d) {
+  const u = new URL(base);
+  u.searchParams.set('prefilled_email', d.oEmail);
+  u.searchParams.set('client_reference_id', no);
+  return u.toString();
+}
+function paymentsFor(no, d) {
   const lines = cartLines();
-  const one = lines.length === 1 ? lines[0] : null;
-  const base = (one && one.p.payLink) || SHOP.payLink;
-  if (!base) return null;
-  const count = cartCount(), total = grandTotal().toFixed(2);
-  if (/buy\.stripe\.com\//i.test(base)) {
-    const u = new URL(base);
-    u.searchParams.set('prefilled_email', d.oEmail);
-    u.searchParams.set('client_reference_id', no);
-    return {
-      url: u.toString(), stripe: true,
-      note: count > 1
-        ? `Last step: on the card page, set the quantity to <b>${count}</b> so it matches your order (${money(grandTotal())}).`
-        : `Last step: pay <b>${money(grandTotal())}</b> by card on Stripe's secure page.`,
-    };
+  if (lines.length && lines.every(l => l.p.payLink)) {
+    return lines.map(({ p, qty }) => ({
+      url: /buy\.stripe\.com\//i.test(p.payLink) ? stripeUrl(p.payLink, no, d) : p.payLink,
+      label: `Pay for ${qty} ${p.name}${qty > 1 ? 's' : ''} — ${money(qty * p.price)}`,
+      qty,
+    }));
   }
-  if (/paypal\.me\//i.test(base)) {
-    return { url: `${base.replace(/\/$/, '')}/${total}`, stripe: false,
-      note: `Last step: pay <b>${money(grandTotal())}</b> and put your order number <b>${esc(no)}</b> in the message.` };
+  if (SHOP.payLink) {
+    const total = grandTotal().toFixed(2);
+    const url = /paypal\.me\//i.test(SHOP.payLink) ? `${SHOP.payLink.replace(/\/$/, '')}/${total}`
+      : /buy\.stripe\.com\//i.test(SHOP.payLink) ? stripeUrl(SHOP.payLink, no, d) : SHOP.payLink;
+    return [{ url, label: `Pay ${money(grandTotal())}`, qty: cartCount() }];
   }
-  return { url: base, stripe: false, note: `Last step: pay <b>${money(grandTotal())}</b>.` };
+  return [];
 }
 
 $('copyOrder').onclick = async () => {

@@ -50,8 +50,13 @@ back unless asked).
     Google Form setup: make a form with long-answer questions (order, name, email, phone, address,
     note) → Send → link → the `/viewform` URL becomes `/formResponse`; entry ids come from the
     page source (`entry.123456789`). Posted with `mode:'no-cors'`, so failures are silent.
-  - `SHOP.payLink` is a PayPal.me/Stripe link (must belong to a grown-up — 18+ to hold the account).
-    PayPal.me links get `/<total>` appended. Empty = "the shop will send you a payment link".
+  - **Payments: each pack has its own Stripe Payment Link** (`PRODUCTS[].payLink`). They are
+    **TEST-mode links** (`buy.stripe.com/test_…`) from Archer's Stripe *sandbox* — no real money moves
+    until a parent activates the live account and live links replace these. Checkout shows one
+    green Pay button per kind of pack, adds `prefilled_email` + `client_reference_id` (order number)
+    to the Stripe URL, and tells the buyer to set the quantity on Stripe's page (Payment Links can't
+    preset quantity). Links were made with adjustable quantity + billing & shipping address (US only),
+    no shipping rates (free shipping). `SHOP.payLink` is only a fallback.
   - Never add real card fields to this site; it's a static page with no server.
 
 ## Running it
