@@ -58,6 +58,12 @@ back unless asked).
     to the Stripe URL, and tells the buyer to set the quantity on Stripe's page (Payment Links can't
     preset quantity). Links were made with adjustable quantity + billing & shipping address (US only),
     no shipping rates (free shipping). `SHOP.payLink` is only a fallback.
+  - **The links use manual capture** (`payment_intent_data[capture_method]=manual`): a purchase only
+    *holds* the card; it shows as **Uncaptured** in Stripe → Payments, and Archer clicks Capture
+    (charge + ship) or Cancel. Holds expire after ~7 days. The dashboard UI can't set this, so the
+    links (…EI06–EI0b) were made in Workbench → Shell with `stripe payment_links create … -d
+    "payment_intent_data[capture_method]=manual"` (price IDs: `stripe prices list`). The first set
+    (…EI00–EI05, auto-capture) is no longer used by the site.
   - Never add real card fields to this site; it's a static page with no server.
 
 ## Running it

@@ -392,7 +392,7 @@ const PRODUCTS = [
     },
     description: 'A booster pack for Fire-type fans. Every card inside is a real Fire-type Pokémon card — nothing else gets in. Crimp-sealed in a shiny foil pack.',
     contents: ['12 real Pokémon cards (no fakes or fan cards)', 'Fire-type Pokémon only', 'Crimp-sealed foil pack'],
-    payLink: 'https://buy.stripe.com/test_bJe3cv3eAbYa0AM7kO9EI00',                 // Stripe Payment Link for this pack: https://buy.stripe.com/...
+    payLink: 'https://buy.stripe.com/test_6oUcN53eA1jwabm48C9EI06',                 // Stripe Payment Link for this pack: https://buy.stripe.com/...
     maxPerOrder: 10,
     hidden: false,
     art: flamesArt,
@@ -420,7 +420,7 @@ const PRODUCTS = [
     },
     description: 'A booster pack for Water-type fans. Every card inside is a real Water-type Pokémon card — nothing else gets in. Crimp-sealed in a shiny foil pack.',
     contents: ['12 real Pokémon cards (no fakes or fan cards)', 'Water-type Pokémon only', 'Crimp-sealed foil pack'],
-    payLink: 'https://buy.stripe.com/test_aFafZheXiaU6dnygVo9EI01',                 // Stripe Payment Link for this pack: https://buy.stripe.com/...
+    payLink: 'https://buy.stripe.com/test_eVq14n16s8LY0AM34y9EI07',                 // Stripe Payment Link for this pack: https://buy.stripe.com/...
     maxPerOrder: 10,
     hidden: false,
     art: aquaArt,
@@ -448,7 +448,7 @@ const PRODUCTS = [
     },
     description: 'A booster pack for Grass-type fans. Every card inside is a real Grass-type Pokémon card — nothing else gets in. Crimp-sealed in a shiny foil pack.',
     contents: ['12 real Pokémon cards (no fakes or fan cards)', 'Grass-type Pokémon only', 'Crimp-sealed foil pack'],
-    payLink: 'https://buy.stripe.com/test_eVqcN516sfam4R27kO9EI02',                 // Stripe Payment Link for this pack: https://buy.stripe.com/...
+    payLink: 'https://buy.stripe.com/test_8x214naH24vIdnyfRk9EI08',                 // Stripe Payment Link for this pack: https://buy.stripe.com/...
     maxPerOrder: 10,
     hidden: false,
     art: natureArt,
@@ -476,7 +476,7 @@ const PRODUCTS = [
     },
     description: 'A booster pack for Dark-type fans. Every card inside is a real Dark-type Pokémon card — nothing else gets in. Crimp-sealed in a shiny foil pack.',
     contents: ['12 real Pokémon cards (no fakes or fan cards)', 'Dark-type Pokémon only', 'Crimp-sealed foil pack'],
-    payLink: 'https://buy.stripe.com/test_7sYeVd6qM6DQbfq48C9EI03',                 // Stripe Payment Link for this pack: https://buy.stripe.com/...
+    payLink: 'https://buy.stripe.com/test_4gMcN54iE8LY0AM7kO9EI09',                 // Stripe Payment Link for this pack: https://buy.stripe.com/...
     maxPerOrder: 10,
     hidden: false,
     art: shadowArt,
@@ -504,7 +504,7 @@ const PRODUCTS = [
     },
     description: 'A booster pack for Normal-type fans. Every card inside is a real Normal-type Pokémon card — nothing else gets in. Crimp-sealed in a shiny foil pack.',
     contents: ['12 real Pokémon cards (no fakes or fan cards)', 'Normal-type Pokémon only', 'Crimp-sealed foil pack'],
-    payLink: 'https://buy.stripe.com/test_28E3cv4iE9Q20AMax09EI04',                 // Stripe Payment Link for this pack: https://buy.stripe.com/...
+    payLink: 'https://buy.stripe.com/test_aFa5kDaH29Q2bfqcF89EI0a',                 // Stripe Payment Link for this pack: https://buy.stripe.com/...
     maxPerOrder: 10,
     hidden: false,
     art: neutralArt,
@@ -532,7 +532,7 @@ const PRODUCTS = [
     },
     description: 'A booster pack for Steel-type fans. Every card inside is a real Steel-type Pokémon card — nothing else gets in. Crimp-sealed in a shiny foil pack.',
     contents: ['12 real Pokémon cards (no fakes or fan cards)', 'Steel-type Pokémon only', 'Crimp-sealed foil pack'],
-    payLink: 'https://buy.stripe.com/test_6oUdR98yU0fs5V6eNg9EI05',                 // Stripe Payment Link for this pack: https://buy.stripe.com/...
+    payLink: 'https://buy.stripe.com/test_dRm7sL2awbYa3MY7kO9EI0b',                 // Stripe Payment Link for this pack: https://buy.stripe.com/...
     maxPerOrder: 10,
     hidden: false,
     art: gearArt,
@@ -1131,7 +1131,8 @@ $('checkoutBtn').onclick = () => {
   $('oErr').textContent = '';
   const n = cartCount();
   $('quickTotal').innerHTML = `<span>${n} ${n === 1 ? 'pack' : 'packs'} + ${shippingCost() ? money(shippingCost()) + ' shipping' : 'free shipping'}</span><b>${money(grandTotal())}</b>`
-    + (n > 1 && cartLines().length === 1 ? `<small class="qty-hint">On the card page, set the quantity to ${n}.</small>` : '');
+    + (n > 1 && cartLines().length === 1 ? `<small class="qty-hint">On the card page, set the quantity to ${n}.</small>` : '')
+    + `<small class="qty-hint">Your card is only held until the shop confirms your order.</small>`;
   showStep(1);
   closeCart();
   dlg.showModal();
@@ -1193,7 +1194,7 @@ $('orderForm').addEventListener('submit', async e => {
   if (pays.length) {
     $('doneTitle').textContent = 'Pay to finish your order';
     $('doneMsg').textContent = "Your order isn't finished until it's paid. Each kind of pack pays on its own secure Stripe page.";
-    $('payBox').innerHTML = `<div class="pay-box"><p>Press each button and pay on Stripe's page.${needsQty ? ' Set the quantity there to match.' : ''}</p>
+    $('payBox').innerHTML = `<div class="pay-box"><p>Press each button and pay on Stripe's page.${needsQty ? ' Set the quantity there to match.' : ''} Your card is only held — it isn't charged until the shop confirms your order.</p>
        <div class="pay-buttons">${pays.map(x => `<a class="primary" href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.label)}</a>`).join('')}</div></div>`;
   } else {
     $('doneTitle').textContent = 'Order sent';
