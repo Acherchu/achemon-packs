@@ -40,9 +40,11 @@ back unless asked).
   wheel / pinch / + − zoom toward the cursor and clicking a card on the back opens the card close-up
   (`#zoom` dialog). There is no "open pack" feature (removed on purpose).
 - Cart is `{productId: qty}` in `localStorage`.
-- **Checkout** is a 3-step flow (details → review → pay): full shipping form with per-field
-  validation, remembered buyer details (`localStorage.buyer`), flat `SHOP.shipping`, an order number
-  (`AM-YYYYMMDD-XXXX`) and an order text block.
+- **Checkout is deliberately minimal** (Archer: "as quick as possible"): one screen with total +
+  6 required fields (name, email, address, city, state, ZIP) → Place order → pay/confirmation.
+  No optional fields, no review step — don't add phone/apartment/country/note back unless asked.
+  Per-field validation, details remembered in `localStorage.buyer`, flat `SHOP.shipping`, order
+  number `AM-YYYYMMDD-XXXX`.
   - `SHOP.orders.googleForm` (action + `entry.*` field ids) or `SHOP.orders.formspree` decides where
     orders land — **both still empty**, so orders currently only show as copyable text.
     Google Form setup: make a form with long-answer questions (order, name, email, phone, address,

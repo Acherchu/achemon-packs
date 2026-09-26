@@ -186,26 +186,14 @@ textarea{min-height:70px;resize:vertical}
 .ghost{background:none;border:1px solid var(--line);border-radius:12px;padding:0 18px;height:52px;font-weight:600}
 pre.order{white-space:pre-wrap;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px;font-size:13px;margin:12px 0 0}
 .err{color:#c62a0b;font-size:13px;min-height:18px;margin:6px 0 0}
-.steps-bar{display:flex;gap:6px;margin:0 0 14px;font-size:12px;font-weight:700;color:var(--muted)}
-.step{flex:1;text-align:center;padding:6px 4px;border-radius:999px;background:#eef0f5}
-.step.on{background:var(--blue);color:#fff}
-.step.done{background:#dff0e5;color:#14532d}
+.quick-total{display:flex;justify-content:space-between;align-items:center;background:var(--panel);border:2px solid var(--line);border-radius:12px;padding:10px 14px;margin-bottom:6px;font-size:15px}
+.quick-total b{font-size:19px;font-weight:800}
 .fields{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
+.f.two{grid-column:span 1}
 .f.wide{grid-column:1 / -1}
 .f label{margin-top:10px}
 .f .ferr{display:block;min-height:15px;font-size:12px;color:#c62a0b}
 .f.bad input,.f.bad textarea{border-color:#c62a0b}
-.save-row{display:flex;align-items:center;gap:8px;font-weight:600;font-size:14px;margin-top:6px}
-.save-row input{width:auto}
-.review-lines{display:grid;gap:8px;margin-bottom:12px}
-.review-line{display:flex;gap:10px;align-items:center;font-size:15px}
-.review-line .qty-tag{flex:none;min-width:30px;height:26px;border-radius:8px;background:var(--panel);border:2px solid var(--line);display:grid;place-items:center;font-weight:800;font-size:13px}
-.review-line b{margin-left:auto}
-.totals{border-top:1px solid var(--line);padding-top:10px;display:grid;gap:6px;font-size:15px}
-.totals div{display:flex;justify-content:space-between}
-.totals .grand{font-size:19px;font-weight:800;border-top:1px solid var(--line);padding-top:8px}
-.ship-h{font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin:16px 0 4px}
-.ship-to{margin:0;white-space:pre-line;font-size:15px}
 .order-no{background:var(--panel);border:2px solid var(--line);border-radius:12px;padding:10px 14px;font-size:15px;margin-bottom:14px}
 .order-no b{font-family:Bungee, Outfit, sans-serif;letter-spacing:1px}
 .pay-box{background:#eaf7ef;border:2px solid #1f9d55;border-radius:12px;padding:14px;margin-bottom:14px}
@@ -321,49 +309,27 @@ body.pack-zoomed .wrap{z-index:30}
 
 <!-- checkout -->
 <dialog id="checkout" aria-label="Checkout">
-  <!-- step 1: where it ships -->
+  <!-- step 1: everything needed, on one screen -->
   <form class="dlg" id="orderForm" method="dialog" novalidate>
-    <div class="steps-bar"><span class="step on">1 Details</span><span class="step">2 Review</span><span class="step">3 Pay</span></div>
-    <h2>Where should it go?</h2>
-    <p class="sub">We only use this to send your packs.</p>
+    <h2>Checkout</h2>
+    <div class="quick-total" id="quickTotal"></div>
     <div class="fields">
       <div class="f wide"><label for="oName">Full name</label><input id="oName" autocomplete="name" required><span class="ferr"></span></div>
-      <div class="f"><label for="oEmail">Email</label><input id="oEmail" type="email" autocomplete="email" required><span class="ferr"></span></div>
-      <div class="f"><label for="oPhone">Phone (optional)</label><input id="oPhone" type="tel" autocomplete="tel"><span class="ferr"></span></div>
-      <div class="f wide"><label for="oAddr1">Street address</label><input id="oAddr1" autocomplete="address-line1" required><span class="ferr"></span></div>
-      <div class="f wide"><label for="oAddr2">Apartment, unit (optional)</label><input id="oAddr2" autocomplete="address-line2"><span class="ferr"></span></div>
+      <div class="f wide"><label for="oEmail">Email</label><input id="oEmail" type="email" autocomplete="email" required><span class="ferr"></span></div>
+      <div class="f wide"><label for="oAddr1">Address</label><input id="oAddr1" autocomplete="street-address" required><span class="ferr"></span></div>
       <div class="f"><label for="oCity">City</label><input id="oCity" autocomplete="address-level2" required><span class="ferr"></span></div>
-      <div class="f"><label for="oState">State</label><input id="oState" autocomplete="address-level1" required><span class="ferr"></span></div>
-      <div class="f"><label for="oZip">ZIP code</label><input id="oZip" inputmode="numeric" autocomplete="postal-code" required><span class="ferr"></span></div>
-      <div class="f"><label for="oCountry">Country</label><input id="oCountry" autocomplete="country-name" value="United States" required><span class="ferr"></span></div>
-      <div class="f wide"><label for="oNote">Note for the shop (optional)</label><textarea id="oNote"></textarea></div>
+      <div class="f two"><label for="oState">State</label><input id="oState" autocomplete="address-level1" required><span class="ferr"></span></div>
+      <div class="f two"><label for="oZip">ZIP</label><input id="oZip" inputmode="numeric" autocomplete="postal-code" required><span class="ferr"></span></div>
     </div>
-    <label class="save-row"><input type="checkbox" id="oSave" checked> Remember my details on this device</label>
     <p class="err" id="oErr" aria-live="polite"></p>
     <div class="dlg-actions">
       <button type="button" class="ghost" id="cancelOrder">Cancel</button>
-      <button type="submit" class="primary">Review order</button>
+      <button type="submit" class="primary" id="placeOrder">Place order</button>
     </div>
   </form>
 
-  <!-- step 2: check it over -->
-  <div class="dlg" id="orderReview" hidden>
-    <div class="steps-bar"><span class="step done">1 Details</span><span class="step on">2 Review</span><span class="step">3 Pay</span></div>
-    <h2>Check your order</h2>
-    <div class="review-lines" id="reviewLines"></div>
-    <div class="totals" id="reviewTotals"></div>
-    <h3 class="ship-h">Shipping to</h3>
-    <p class="ship-to" id="reviewAddress"></p>
-    <p class="err" id="rErr" aria-live="polite"></p>
-    <div class="dlg-actions">
-      <button type="button" class="ghost" id="backToDetails">Back</button>
-      <button type="button" class="primary" id="placeOrder">Place order</button>
-    </div>
-  </div>
-
   <!-- step 3: pay + confirmation -->
   <div class="dlg" id="orderDone" hidden>
-    <div class="steps-bar"><span class="step done">1 Details</span><span class="step done">2 Review</span><span class="step on">3 Pay</span></div>
     <h2>Order placed!</h2>
     <p class="sub" id="doneMsg"></p>
     <div class="order-no">Order <b id="orderNo"></b></div>
@@ -389,7 +355,7 @@ const SHOP = {
     // 1) Google Form: orders land in your private responses sheet.
     googleForm: {
       action: '',               // https://docs.google.com/forms/d/e/XXXX/formResponse
-      fields: { order: '', name: '', email: '', phone: '', address: '', note: '' },  // entry.123456789
+      fields: { order: '', name: '', email: '', address: '' },   // entry.123456789
     },
     // 2) Formspree (free plan): orders land in your Formspree inbox and your email.
     formspree: '',              // https://formspree.io/f/XXXXXXX
@@ -1136,14 +1102,10 @@ const dlg = $('checkout');
 const FIELDS = [
   ['oName', 'name', 'Please write your full name.'],
   ['oEmail', 'email', 'Please write an email we can reach you at.'],
-  ['oPhone', 'phone', ''],
-  ['oAddr1', 'address line 1', 'Please write your street address.'],
-  ['oAddr2', 'address line 2', ''],
+  ['oAddr1', 'address', 'Please write your address.'],
   ['oCity', 'city', 'Please write your city.'],
   ['oState', 'state', 'Please write your state.'],
   ['oZip', 'ZIP', 'Please write your ZIP code.'],
-  ['oCountry', 'country', 'Please write your country.'],
-  ['oNote', 'note', ''],
 ];
 const shippingCost = () => (cartLines().length ? (SHOP.shipping || 0) : 0);
 const grandTotal = () => cartTotal() + shippingCost();
@@ -1157,18 +1119,19 @@ try {
 
 function showStep(step) {
   $('orderForm').hidden = step !== 1;
-  $('orderReview').hidden = step !== 2;
-  $('orderDone').hidden = step !== 3;
+  $('orderDone').hidden = step !== 2;
 }
 $('checkoutBtn').onclick = () => {
   if (!cartLines().length) return;
-  $('oErr').textContent = ''; $('rErr').textContent = '';
+  $('oErr').textContent = '';
+  const n = cartCount();
+  $('quickTotal').innerHTML = `<span>${n} ${n === 1 ? 'pack' : 'packs'} + ${shippingCost() ? money(shippingCost()) + ' shipping' : 'free shipping'}</span><b>${money(grandTotal())}</b>`;
   showStep(1);
   closeCart();
   dlg.showModal();
+  setTimeout(() => $('oName').focus(), 50);
 };
 $('cancelOrder').onclick = () => dlg.close();
-$('backToDetails').onclick = () => showStep(1);
 
 function markBad(id, msg) {
   const box = $(id).closest('.f');
@@ -1191,23 +1154,36 @@ function checkDetails() {
   $('oErr').textContent = '';
   return true;
 }
-const addressText = d => [d.oName, d.oAddr1, d.oAddr2, `${d.oCity}, ${d.oState} ${d.oZip}`, d.oCountry].filter(Boolean).join('\n');
+const addressText = d => [d.oName, d.oAddr1, `${d.oCity}, ${d.oState} ${d.oZip}`].filter(Boolean).join('\n');
 
-$('orderForm').addEventListener('submit', e => {
+$('orderForm').addEventListener('submit', async e => {
   e.preventDefault();
   if (!checkDetails()) return;
   const d = details();
-  try {
-    if ($('oSave').checked) localStorage.setItem('buyer', JSON.stringify(d));
-    else localStorage.removeItem('buyer');
-  } catch (err) {}
-  $('reviewLines').innerHTML = cartLines().map(({p, qty}) => `
-    <div class="review-line"><span class="qty-tag">${qty}×</span><span>${esc(p.name)}</span><b>${money(qty * p.price)}</b></div>`).join('');
-  $('reviewTotals').innerHTML = `
-    <div><span>Packs</span><span>${money(cartTotal())}</span></div>
-    <div><span>Shipping</span><span>${shippingCost() ? money(shippingCost()) : 'Free'}</span></div>
-    <div class="grand"><span>Total</span><span>${money(grandTotal())}</span></div>`;
-  $('reviewAddress').textContent = addressText(d) + (d.oPhone ? `\n${d.oPhone}` : '') + `\n${d.oEmail}`;
+  try { localStorage.setItem('buyer', JSON.stringify(d)); } catch (err) {}   // remembered for next time
+  const btn = $('placeOrder'), no = orderNumber(), text = orderTextOf(no, d);
+  btn.disabled = true; btn.textContent = 'Sending…';
+  let sent = false;
+  try { sent = await sendOrder(no, d, text); }
+  catch (err) {
+    btn.disabled = false; btn.textContent = 'Place order';
+    $('oErr').textContent = "That didn't send. Check your internet and try again.";
+    return;
+  }
+  btn.disabled = false; btn.textContent = 'Place order';
+  $('orderNo').textContent = no;
+  $('orderText').textContent = text;
+  $('doneMsg').textContent = sent
+    ? `Thanks! Your order is in and your packs ship to ${d.oCity}.`
+    : 'Your order is written out below — send it to the shop to finish.';
+  const total = grandTotal().toFixed(2);
+  const link = SHOP.payLink
+    ? (/paypal\.me\//i.test(SHOP.payLink) ? `${SHOP.payLink.replace(/\/$/, '')}/${total}` : SHOP.payLink)
+    : '';
+  $('payBox').innerHTML = link
+    ? `<div class="pay-box"><p>Last step: pay <b>${money(grandTotal())}</b> and put your order number <b>${esc(no)}</b> in the message.</p>
+       <a class="primary" href="${esc(link)}" target="_blank" rel="noopener">Pay ${money(grandTotal())}</a></div>`
+    : `<div class="pay-box"><p>The shop will send you a payment link for <b>${money(grandTotal())}</b>. Nothing is charged here.</p></div>`;
   showStep(2);
 });
 
@@ -1227,9 +1203,7 @@ function orderTextOf(no, d) {
     addressText(d),
     ``,
     `Email: ${d.oEmail}`,
-    d.oPhone ? `Phone: ${d.oPhone}` : null,
-    d.oNote ? `Note: ${d.oNote}` : null,
-  ].filter(l => l !== null).join('\n');
+  ].join('\n');
 }
 
 // send the order somewhere only the shop owner can see
@@ -1238,8 +1212,7 @@ async function sendOrder(no, d, text) {
   if (gf && gf.action && gf.fields.order) {
     const body = new URLSearchParams();
     const put = (key, val) => { if (gf.fields[key] && val) body.append(gf.fields[key], val); };
-    put('order', text); put('name', d.oName); put('email', d.oEmail); put('phone', d.oPhone);
-    put('address', addressText(d)); put('note', d.oNote);
+    put('order', text); put('name', d.oName); put('email', d.oEmail); put('address', addressText(d));
     await fetch(gf.action, { method: 'POST', mode: 'no-cors', body });   // no-cors: we can't read the reply
     return true;
   }
@@ -1247,8 +1220,8 @@ async function sendOrder(no, d, text) {
     const r = await fetch(SHOP.orders.formspree, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-      body: JSON.stringify({ order: no, total: money(grandTotal()), name: d.oName, email: d.oEmail,
-        phone: d.oPhone, address: addressText(d), note: d.oNote, details: text }),
+      body: JSON.stringify({ order: no, total: money(grandTotal()), name: d.oName,
+        email: d.oEmail, address: addressText(d), details: text }),
     });
     if (!r.ok) throw new Error('Formspree ' + r.status);
     return true;
@@ -1256,32 +1229,6 @@ async function sendOrder(no, d, text) {
   return false;                                                          // nowhere set up yet
 }
 
-$('placeOrder').onclick = async () => {
-  const btn = $('placeOrder'), d = details(), no = orderNumber(), text = orderTextOf(no, d);
-  btn.disabled = true; btn.textContent = 'Sending…'; $('rErr').textContent = '';
-  let sent = false;
-  try { sent = await sendOrder(no, d, text); }
-  catch (err) {
-    btn.disabled = false; btn.textContent = 'Place order';
-    $('rErr').textContent = "That didn't send. Check your internet and try again.";
-    return;
-  }
-  btn.disabled = false; btn.textContent = 'Place order';
-  $('orderNo').textContent = no;
-  $('orderText').textContent = text;
-  $('doneMsg').textContent = sent
-    ? `Thanks! Your order is with the shop and your packs ship to ${d.oCity}.`
-    : 'Your order is written out below — send it to the shop to finish.';
-  const total = grandTotal().toFixed(2);
-  const link = SHOP.payLink
-    ? (/paypal\.me\//i.test(SHOP.payLink) ? `${SHOP.payLink.replace(/\/$/, '')}/${total}` : SHOP.payLink)
-    : '';
-  $('payBox').innerHTML = link
-    ? `<div class="pay-box"><p>Last step: pay <b>${money(grandTotal())}</b> and put your order number <b>${esc(no)}</b> in the message.</p>
-       <a class="primary" href="${esc(link)}" target="_blank" rel="noopener">Pay ${money(grandTotal())}</a></div>`
-    : `<div class="pay-box"><p>The shop will send you a payment link for <b>${money(grandTotal())}</b>. Nothing is charged here.</p></div>`;
-  showStep(3);
-};
 $('copyOrder').onclick = async () => {
   try { await navigator.clipboard.writeText($('orderText').textContent); $('copyOrder').textContent = 'Copied!'; }
   catch (e) { $('copyOrder').textContent = 'Select & copy'; }
