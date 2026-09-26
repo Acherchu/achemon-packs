@@ -542,7 +542,7 @@ const PRODUCTS = [
     title: 'Micaiah',
     name: 'Micaiah Pack',
     number: '007',
-    price: 0.01,
+    price: 0,
     cardCount: 12,
     accent: '#ffe07a',
     theme: {                      // rainbow foil: every type's color
@@ -551,7 +551,7 @@ const PRODUCTS = [
       glow1: 'rgba(255,120,200,.36)', glow2: 'rgba(110,200,255,.32)',
       f1: '#1c1638', f2: '#33285e', f3: '#120e26', f4: '#2a2150', f5: '#0a0818',
     },
-    description: 'A booster pack with a mix of every type — any Pokémon could be inside. Crimp-sealed in a shiny foil pack.',
+    description: 'A free booster pack with a mix of every type — any Pokémon could be inside. Crimp-sealed in a shiny foil pack.',
     contents: ['12 real Pokémon cards (no fakes or fan cards)', 'Any type of Pokémon', 'Crimp-sealed foil pack'],
     payLink: '',                 // Stripe Payment Link for this pack: https://buy.stripe.com/...
     maxPerOrder: 10,
@@ -850,6 +850,7 @@ function gearArt(u) {
 
 const $ = id => document.getElementById(id);
 const money = n => n.toLocaleString('en-US', {style:'currency', currency:'USD'});
+const priceLabel = n => (n > 0 ? money(n) : 'Free');
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const shopProducts = () => PRODUCTS.filter(p => !p.hidden);
 const findProduct = id => shopProducts().find(p => p.id === id);
@@ -899,7 +900,7 @@ function renderShop() {
           <div class="card-stage"><div class="scaler">${boxHTML(p)}</div></div>
           <div class="card-body">
             <div><b>${esc(p.name)}</b><small>No. ${esc(p.number)} · ${p.cardCount} real cards</small><span class="card-view">View pack →</span></div>
-            <div class="card-price">${money(p.price)}</div>
+            <div class="card-price">${priceLabel(p.price)}</div>
           </div>
         </a>`).join('')}
     </section>`;
@@ -934,7 +935,7 @@ function renderProduct(p) {
       <div class="product">
         <span class="tag">Pack No. ${esc(p.number)} · 100% real cards</span>
         <h1 class="logo-text"><em>${esc(p.title)}</em><br>Pack</h1>
-        <div class="price">${money(p.price)}<small>per pack · ${SHOP.shipping ? money(SHOP.shipping) + ' shipping' : 'free shipping'}</small></div>
+        <div class="price">${priceLabel(p.price)}<small>${p.price > 0 ? 'per pack · ' : ''}${SHOP.shipping ? money(SHOP.shipping) + ' shipping' : 'free shipping'}</small></div>
         <p class="desc">${esc(p.description)}</p>
         <div class="contents">
           <h2>What's inside</h2>
@@ -1127,7 +1128,7 @@ function renderCart() {
     <div class="line-item" style="${accentStyle(p)}">
       <div class="thumb foil"></div>
       <div class="info">
-        <b>${esc(p.name)}</b><span>${money(p.price)} each</span><br>
+        <b>${esc(p.name)}</b><span>${p.price > 0 ? money(p.price) + ' each' : 'Free'}</span><br>
         <button class="remove" data-rm="${esc(p.id)}">Remove</button>
       </div>
       <div class="qty small">
@@ -1178,9 +1179,9 @@ $('checkoutBtn').onclick = () => {
   if (!cartLines().length) return;
   $('oErr').textContent = '';
   const n = cartCount();
-  $('quickTotal').innerHTML = `<span>${n} ${n === 1 ? 'pack' : 'packs'} + ${shippingCost() ? money(shippingCost()) + ' shipping' : 'free shipping'}</span><b>${money(grandTotal())}</b>`
+  $('quickTotal').innerHTML = `<span>${n} ${n === 1 ? 'pack' : 'packs'} + ${shippingCost() ? money(shippingCost()) + ' shipping' : 'free shipping'}</span><b>${priceLabel(grandTotal())}</b>`
     + (n > 1 && cartLines().length === 1 ? `<small class="qty-hint">On the card page, set the quantity to ${n}.</small>` : '')
-    + `<small class="qty-hint">Your card is only held until the shop confirms your order.</small>`;
+    + (grandTotal() > 0 ? `<small class="qty-hint">Your card is only held until the shop confirms your order.</small>` : '');
   showStep(1);
   closeCart();
   dlg.showModal();
@@ -1232,7 +1233,11 @@ $('orderForm').addEventListener('submit', async e => {
 
   // One kind of pack: go straight to Stripe's card page. The order only counts once it's paid there,
   // and nothing is charged until the buyer presses Pay on Stripe's page.
-  if (pays.length === 1 && /stripe\.com/i.test(pays[0].url)) {
+  const freeLines = cartLines().filter(l => !(l.p.price > 0));
+  const freeNote = freeLines.length
+    ? ` Your free ${freeLines.map(l => l.p.name).join(' and ')} ${freeLines.length > 1 ? 'are' : 'is'} part of this order — ${sent ? 'nothing to pay for it.' : 'send the shop this order so they know to include it.'}`
+    : '';
+  if (pays.length === 1 && !freeLines.length && /stripe\.com/i.test(pays[0].url)) {
     btn.textContent = 'Opening secure payment…';
     location.href = pays[0].url;
     return;
@@ -1242,8 +1247,14 @@ $('orderForm').addEventListener('submit', async e => {
   if (pays.length) {
     $('doneTitle').textContent = 'Pay to finish your order';
     $('doneMsg').textContent = "Your order isn't finished until it's paid. Each kind of pack pays on its own secure Stripe page.";
-    $('payBox').innerHTML = `<div class="pay-box"><p>Press each button and pay on Stripe's page.${needsQty ? ' Set the quantity there to match.' : ''} Your card is only held — it isn't charged until the shop confirms your order.</p>
+    $('payBox').innerHTML = `<div class="pay-box"><p>Press each button and pay on Stripe's page.${needsQty ? ' Set the quantity there to match.' : ''} Your card is only held — it isn't charged until the shop confirms your order.${freeNote}</p>
        <div class="pay-buttons">${pays.map(x => `<a class="primary" href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.label)}</a>`).join('')}</div></div>`;
+  } else if (grandTotal() === 0) {
+    $('doneTitle').textContent = sent ? 'Order sent' : 'Almost done';
+    $('doneMsg').textContent = sent
+      ? `Thanks! Your free pack ships to ${d.oCity}.`
+      : 'Your order is written out below — send it to the shop so they can mail your free pack.';
+    $('payBox').innerHTML = `<div class="pay-box"><p>This order is <b>free</b> — there's nothing to pay.</p></div>`;
   } else {
     $('doneTitle').textContent = 'Order sent';
     $('doneMsg').textContent = sent
@@ -1262,7 +1273,7 @@ function orderTextOf(no, d) {
   return [
     `Order ${no} — ${SHOP.name}`,
     ``,
-    ...cartLines().map(({p, qty}) => `${qty} × ${p.name} (${money(p.price)} each) = ${money(qty * p.price)}`),
+    ...cartLines().map(({p, qty}) => `${qty} × ${p.name} (${p.price > 0 ? money(p.price) + ' each' : 'free'}) = ${priceLabel(qty * p.price)}`),
     `Shipping: ${shippingCost() ? money(shippingCost()) : 'Free'}`,
     `Total: ${money(grandTotal())}`,
     ``,
@@ -1305,8 +1316,9 @@ function stripeUrl(base, no, d) {
   return u.toString();
 }
 function paymentsFor(no, d) {
-  const lines = cartLines();
-  if (lines.length && lines.every(l => l.p.payLink)) {
+  const lines = cartLines().filter(l => l.p.price > 0);   // free packs have nothing to pay
+  if (!lines.length) return [];
+  if (lines.every(l => l.p.payLink)) {
     return lines.map(({ p, qty }) => ({
       url: /buy\.stripe\.com\//i.test(p.payLink) ? stripeUrl(p.payLink, no, d) : p.payLink,
       label: `Pay for ${qty} ${p.name}${qty > 1 ? 's' : ''} — ${money(qty * p.price)}`,

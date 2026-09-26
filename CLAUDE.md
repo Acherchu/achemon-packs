@@ -8,6 +8,11 @@ A shop site for Archer's handmade Pokémon booster packs (real cards inside). Si
 $9 and 7 cards each, and each one only holds cards of its type:
 Flames (001, Fire), Aqua (002, Water), Nature (003, Grass), Shadow (004, Dark), Neutral (005, Normal),
 Gear (006, Steel). The old Umbreon and Charizard packs were removed on request.
+Plus the **Micaiah Pack** (007, any type, rainbow `micaiahArt`), which is **free** (`price: 0`): Stripe
+can't charge under $0.50, so it has no payLink. Free packs show "Free", never get a Pay button, and
+a cart with a free pack doesn't auto-jump to Stripe (the done screen explains the free pack). Free
+orders only reach Archer once an orders inbox (`SHOP.orders`) is set up. A 1¢ "micaiah pack"
+product exists in the Stripe sandbox but is unused.
 
 Each pack's foil/trim colors come from its `theme` in `PRODUCTS` (CSS variables `--acc-rgb`,
 `--f1`…`--f5`, glows, sparkles; defaults in `:root` are Umbreon's). Art is a hand-built SVG function
