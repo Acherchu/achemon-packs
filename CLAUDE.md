@@ -57,7 +57,10 @@ back unless asked).
     page source (`entry.123456789`). Posted with `mode:'no-cors'`, so failures are silent.
   - **Payments: each pack has its own Stripe Payment Link** (`PRODUCTS[].payLink`). They are
     **TEST-mode links** (`buy.stripe.com/test_…`) from Archer's Stripe *sandbox* — no real money moves
-    until a parent activates the live account and live links replace these. Checkout shows one
+    until a parent activates the live account and live links replace these. While any paid pack in
+    the cart has a `/test_` link, checkout shows a yellow "Card payments aren't open yet" note (real
+    cards are declined on test links and nothing shows in Stripe); it disappears by itself once the
+    links are swapped for live ones. Checkout shows one
     green Pay button per kind of pack (a one-kind cart skips that screen and goes **straight to
     Stripe** — "Continue to payment"), adds `prefilled_email` + `client_reference_id` (order number)
     to the Stripe URL, and tells the buyer to set the quantity on Stripe's page (Payment Links can't

@@ -187,6 +187,8 @@ pre.order{white-space:pre-wrap;background:var(--panel);border:1px solid var(--li
 .quick-total{display:flex;justify-content:space-between;align-items:center;background:var(--panel);border:2px solid var(--line);border-radius:12px;padding:10px 14px;margin-bottom:6px;font-size:15px}
 .quick-total b{font-size:19px;font-weight:800}
 .quick-total{flex-wrap:wrap}
+.test-note{flex-basis:100%;margin-top:8px;padding:9px 11px;border-radius:10px;background:#fff4d6;border:1px solid #f0c24a;color:#7a4a00;font-size:13px;line-height:1.4}
+.test-note b{font-size:inherit;color:#7a4a00}
 .qty-hint{flex-basis:100%;font-size:13px;color:var(--muted);margin-top:2px}
 .fields{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
 .f.two{grid-column:span 1}
@@ -1181,7 +1183,9 @@ $('checkoutBtn').onclick = () => {
   const n = cartCount();
   $('quickTotal').innerHTML = `<span>${n} ${n === 1 ? 'pack' : 'packs'} + ${shippingCost() ? money(shippingCost()) + ' shipping' : 'free shipping'}</span><b>${priceLabel(grandTotal())}</b>`
     + (n > 1 && cartLines().length === 1 ? `<small class="qty-hint">On the card page, set the quantity to ${n}.</small>` : '')
-    + (grandTotal() > 0 ? `<small class="qty-hint">Your card is only held until the shop confirms your order.</small>` : '');
+    + (grandTotal() > 0 ? `<small class="qty-hint">Your card is only held until the shop confirms your order.</small>` : '')
+    // the Stripe links are still sandbox links: real cards get declined and nothing reaches the shop
+    + (cartLines().some(l => l.p.price > 0 && /\/test_/.test(l.p.payLink)) ? `<small class="test-note"><b>Card payments aren't open yet.</b> The shop is still in test mode, so a real card won't go through. Check back soon!</small>` : '');
   showStep(1);
   closeCart();
   dlg.showModal();
