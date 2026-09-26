@@ -347,7 +347,7 @@ body.pack-zoomed .wrap{z-index:30}
 const SHOP = {
   name: 'Ache-mon Packs',
   tagline: 'Handmade booster packs, each one filled with real Pokémon cards.',
-  shipping: 5.00,               // flat shipping added at checkout (0 = free shipping)
+  shipping: 0,                  // flat shipping added at checkout (0 = free shipping — the shop pays postage)
   currency: 'USD',
 
   // WHERE ORDERS GO — fill in ONE of these and only you can see them (see CLAUDE.md for the steps).
@@ -881,7 +881,7 @@ function renderProduct(p) {
       <div class="product">
         <span class="tag">Pack No. ${esc(p.number)} · 100% real cards</span>
         <h1 class="logo-text"><em>${esc(p.title)}</em><br>Pack</h1>
-        <div class="price">${money(p.price)}<small>per pack</small></div>
+        <div class="price">${money(p.price)}<small>per pack · ${SHOP.shipping ? money(SHOP.shipping) + ' shipping' : 'free shipping'}</small></div>
         <p class="desc">${esc(p.description)}</p>
         <div class="contents">
           <h2>What's inside</h2>
