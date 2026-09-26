@@ -186,6 +186,8 @@ pre.order{white-space:pre-wrap;background:var(--panel);border:1px solid var(--li
 .err{color:#c62a0b;font-size:13px;min-height:18px;margin:6px 0 0}
 .quick-total{display:flex;justify-content:space-between;align-items:center;background:var(--panel);border:2px solid var(--line);border-radius:12px;padding:10px 14px;margin-bottom:6px;font-size:15px}
 .quick-total b{font-size:19px;font-weight:800}
+.quick-total{flex-wrap:wrap}
+.qty-hint{flex-basis:100%;font-size:13px;color:var(--muted);margin-top:2px}
 .fields{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
 .f.two{grid-column:span 1}
 .f.wide{grid-column:1 / -1}
@@ -320,13 +322,13 @@ body.pack-zoomed .wrap{z-index:30}
     <p class="err" id="oErr" aria-live="polite"></p>
     <div class="dlg-actions">
       <button type="button" class="ghost" id="cancelOrder">Cancel</button>
-      <button type="submit" class="primary" id="placeOrder">Place order</button>
+      <button type="submit" class="primary" id="placeOrder">Continue to payment</button>
     </div>
   </form>
 
   <!-- step 3: pay + confirmation -->
   <div class="dlg" id="orderDone" hidden>
-    <h2>Order placed!</h2>
+    <h2 id="doneTitle">Pay to finish your order</h2>
     <p class="sub" id="doneMsg"></p>
     <div class="order-no">Order <b id="orderNo"></b></div>
     <div id="payBox"></div>
@@ -1128,7 +1130,8 @@ $('checkoutBtn').onclick = () => {
   if (!cartLines().length) return;
   $('oErr').textContent = '';
   const n = cartCount();
-  $('quickTotal').innerHTML = `<span>${n} ${n === 1 ? 'pack' : 'packs'} + ${shippingCost() ? money(shippingCost()) + ' shipping' : 'free shipping'}</span><b>${money(grandTotal())}</b>`;
+  $('quickTotal').innerHTML = `<span>${n} ${n === 1 ? 'pack' : 'packs'} + ${shippingCost() ? money(shippingCost()) + ' shipping' : 'free shipping'}</span><b>${money(grandTotal())}</b>`
+    + (n > 1 && cartLines().length === 1 ? `<small class="qty-hint">On the card page, set the quantity to ${n}.</small>` : '');
   showStep(1);
   closeCart();
   dlg.showModal();
@@ -1165,26 +1168,40 @@ $('orderForm').addEventListener('submit', async e => {
   const d = details();
   try { localStorage.setItem('buyer', JSON.stringify(d)); } catch (err) {}   // remembered for next time
   const btn = $('placeOrder'), no = orderNumber(), text = orderTextOf(no, d);
-  btn.disabled = true; btn.textContent = 'Sending…';
+  const reset = () => { btn.disabled = false; btn.textContent = 'Continue to payment'; };
+  btn.disabled = true; btn.textContent = 'One moment…';
   let sent = false;
   try { sent = await sendOrder(no, d, text); }
   catch (err) {
-    btn.disabled = false; btn.textContent = 'Place order';
+    reset();
     $('oErr').textContent = "That didn't send. Check your internet and try again.";
     return;
   }
-  btn.disabled = false; btn.textContent = 'Place order';
+  const pays = paymentsFor(no, d);
   $('orderNo').textContent = no;
   $('orderText').textContent = text;
-  $('doneMsg').textContent = sent
-    ? `Thanks! Your order is in and your packs ship to ${d.oCity}.`
-    : 'Your order is written out below — send it to the shop to finish.';
-  const pays = paymentsFor(no, d);
+
+  // One kind of pack: go straight to Stripe's card page. The order only counts once it's paid there,
+  // and nothing is charged until the buyer presses Pay on Stripe's page.
+  if (pays.length === 1 && /stripe\.com/i.test(pays[0].url)) {
+    btn.textContent = 'Opening secure payment…';
+    location.href = pays[0].url;
+    return;
+  }
+  reset();
   const needsQty = pays.some(x => x.qty > 1);
-  $('payBox').innerHTML = pays.length
-    ? `<div class="pay-box"><p>Last step: pay by card on Stripe's secure page.${pays.length > 1 ? ' Each kind of pack has its own button.' : ''}${needsQty ? ' Set the quantity on the card page to match.' : ''}</p>
-       <div class="pay-buttons">${pays.map(x => `<a class="primary" href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.label)}</a>`).join('')}</div></div>`
-    : `<div class="pay-box"><p>The shop will send you a payment link for <b>${money(grandTotal())}</b>. Nothing is charged here.</p></div>`;
+  if (pays.length) {
+    $('doneTitle').textContent = 'Pay to finish your order';
+    $('doneMsg').textContent = "Your order isn't finished until it's paid. Each kind of pack pays on its own secure Stripe page.";
+    $('payBox').innerHTML = `<div class="pay-box"><p>Press each button and pay on Stripe's page.${needsQty ? ' Set the quantity there to match.' : ''}</p>
+       <div class="pay-buttons">${pays.map(x => `<a class="primary" href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.label)}</a>`).join('')}</div></div>`;
+  } else {
+    $('doneTitle').textContent = 'Order sent';
+    $('doneMsg').textContent = sent
+      ? `Thanks! Your order is in and your packs ship to ${d.oCity}.`
+      : 'Your order is written out below — send it to the shop to finish.';
+    $('payBox').innerHTML = `<div class="pay-box"><p>The shop will send you a payment link for <b>${money(grandTotal())}</b>. Nothing is charged here.</p></div>`;
+  }
   showStep(2);
 });
 

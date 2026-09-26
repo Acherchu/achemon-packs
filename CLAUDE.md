@@ -53,7 +53,8 @@ back unless asked).
   - **Payments: each pack has its own Stripe Payment Link** (`PRODUCTS[].payLink`). They are
     **TEST-mode links** (`buy.stripe.com/test_…`) from Archer's Stripe *sandbox* — no real money moves
     until a parent activates the live account and live links replace these. Checkout shows one
-    green Pay button per kind of pack, adds `prefilled_email` + `client_reference_id` (order number)
+    green Pay button per kind of pack (a one-kind cart skips that screen and goes **straight to
+    Stripe** — "Continue to payment"), adds `prefilled_email` + `client_reference_id` (order number)
     to the Stripe URL, and tells the buyer to set the quantity on Stripe's page (Payment Links can't
     preset quantity). Links were made with adjustable quantity + billing & shipping address (US only),
     no shipping rates (free shipping). `SHOP.payLink` is only a fallback.
