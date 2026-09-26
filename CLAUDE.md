@@ -39,7 +39,18 @@ back unless asked).
 - Pack page: drag to spin; click the pack to zoom (fixed-position `.stage.zoomed`); while zoomed,
   wheel / pinch / + − zoom toward the cursor and clicking a card on the back opens the card close-up
   (`#zoom` dialog). There is no "open pack" feature (removed on purpose).
-- Cart is `{productId: qty}` in `localStorage`; checkout is an order request (no payments).
+- Cart is `{productId: qty}` in `localStorage`.
+- **Checkout** is a 3-step flow (details → review → pay): full shipping form with per-field
+  validation, remembered buyer details (`localStorage.buyer`), flat `SHOP.shipping`, an order number
+  (`AM-YYYYMMDD-XXXX`) and an order text block.
+  - `SHOP.orders.googleForm` (action + `entry.*` field ids) or `SHOP.orders.formspree` decides where
+    orders land — **both still empty**, so orders currently only show as copyable text.
+    Google Form setup: make a form with long-answer questions (order, name, email, phone, address,
+    note) → Send → link → the `/viewform` URL becomes `/formResponse`; entry ids come from the
+    page source (`entry.123456789`). Posted with `mode:'no-cors'`, so failures are silent.
+  - `SHOP.payLink` is a PayPal.me/Stripe link (must belong to a grown-up — 18+ to hold the account).
+    PayPal.me links get `/<total>` appended. Empty = "the shop will send you a payment link".
+  - Never add real card fields to this site; it's a static page with no server.
 
 ## Running it
 
