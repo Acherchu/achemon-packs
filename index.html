@@ -1426,11 +1426,8 @@ $('finishOrder').onclick = () => {
 window.addEventListener('hashchange', route);
 renderCart();
 route();
-if (SHOP.goals && SHOP.goals.length && !location.hash.match(/^#\/pack\//)) {   // not when opening a link to one pack
-  let asked = false;
-  try { asked = sessionStorage.getItem('goalAsked') === '1'; sessionStorage.setItem('goalAsked', '1'); } catch (e) {}
-  if (!asked) askGoal();
-}
+// ask every time the shop opens — but not when opening a link to one pack
+if (SHOP.goals && SHOP.goals.length && !location.hash.match(/^#\/pack\//)) askGoal();
 </script>
 </body>
 </html>

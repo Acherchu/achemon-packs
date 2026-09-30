@@ -41,8 +41,9 @@ back unless asked).
 - **`boxHTML(p)`** — the 3D crimp-sealed foil pack (front/back bodies, sides, edges, crimps).
   The back shows the `pulls` rows.
 - Hash routes: `#/` shop grid, `#/pack/<id>` pack page.
-- **"What are you looking for?"** (`#welcome` dialog, `SHOP.goals`): asked once per visit (sessionStorage
-  `goalAsked`) when the shop opens on `#/` — not on a direct pack link. Answers: Mystery box → Micaiah,
+- **"What are you looking for?"** (`#welcome` dialog, `SHOP.goals`): asked on every page load that opens on
+  `#/` (Archer wants it every time — it used to be once per visit and he never saw it) — not on a
+  direct pack link. Answers: Mystery box → Micaiah,
   Making a deck → the six type packs, Valuable cards → Shadow + Gear. The pick filters the shop grid
   (banner with Change / Show all packs) and is kept in sessionStorage `goal`. Edit `packs` to remap.
 - Pack page: drag to spin; click the pack to zoom (fixed-position `.stage.zoomed`); while zoomed,
