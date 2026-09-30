@@ -209,6 +209,20 @@ pre.order{white-space:pre-wrap;background:var(--panel);border:1px solid var(--li
 
 /* shop page */
 .page-head{padding:18px 0 26px}
+/* "What are you looking for?" welcome question */
+#welcome{width:min(460px,calc(100% - 32px))}
+#welcome h2{font-family:Bungee, Outfit, sans-serif;font-weight:400;font-size:24px;color:var(--blue-dark);margin:0 0 4px}
+.goal-opts{display:grid;gap:10px;margin:14px 0 4px}
+.goal-opt{display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:var(--panel);border:3px solid var(--line);border-radius:14px;padding:12px 14px;color:var(--text);font:inherit;cursor:pointer;transition:border-color .15s, transform .1s}
+.goal-opt:hover,.goal-opt:focus-visible{border-color:var(--yellow);transform:translateY(-1px);outline:none}
+.goal-opt .gi{flex:none;width:48px;height:48px;border-radius:12px;display:grid;place-items:center;font-size:26px;background:var(--bg)}
+.goal-opt b{display:block;font-size:18px;font-weight:800}
+.goal-opt small{display:block;color:var(--muted);font-size:14px;line-height:1.35}
+.goal-skip{display:block;margin:10px auto 0;background:none;border:0;color:var(--muted);font:inherit;font-size:14px;text-decoration:underline;cursor:pointer}
+.goal-bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;background:var(--panel);border:2px solid var(--yellow);border-radius:14px;padding:12px 16px;margin:0 0 22px}
+.goal-bar .gi{font-size:22px}
+.goal-bar p{flex:1 1 220px;margin:0;font-size:15px}
+.goal-bar button{background:none;border:0;padding:0;color:var(--blue);font:inherit;font-size:14px;font-weight:600;cursor:pointer}
 .page-head h1{font-size:clamp(34px,4.8vw,50px);line-height:1.05;margin:0 0 8px}
 .page-head p{margin:0;color:var(--muted)}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:22px;padding-bottom:50px}
@@ -342,6 +356,16 @@ body.pack-zoomed .wrap{z-index:30}
   </div>
 </dialog>
 
+<!-- first thing a visitor sees: what are you looking for? -->
+<dialog id="welcome" aria-labelledby="welcomeTitle">
+  <div class="dlg">
+    <h2 id="welcomeTitle">What are you looking for?</h2>
+    <p class="sub" style="margin:0">Pick one and we'll show you the best packs for it.</p>
+    <div class="goal-opts" id="goalOpts"></div>
+    <button type="button" class="goal-skip" id="goalSkip">Just looking — show me everything</button>
+  </div>
+</dialog>
+
 <script>
 /* ===================== Edit your shop here ===================== */
 const SHOP = {
@@ -366,6 +390,19 @@ const SHOP = {
   // this one is used when the cart has a mix of packs. Stripe gets the buyer's email and the
   // order number passed along, so every payment in Stripe matches an order here.
   payLink: '',
+
+  // The "What are you looking for?" question when the shop opens. packs = the pack ids shown for that answer.
+  goals: [
+    { id: 'mystery', icon: '🎁', title: 'Mystery box', blurb: 'A surprise — you never know what you’ll get.',
+      note: 'The Micaiah Pack can have any type of Pokémon inside, so every pack is a surprise.',
+      packs: ['micaiah-007'] },
+    { id: 'deck', icon: '🃏', title: 'Making a deck', blurb: 'Lots of cards of one type to build around.',
+      note: 'Every type pack is all one type — pick the type your deck is built around.',
+      packs: ['flames-001', 'aqua-002', 'nature-003', 'shadow-004', 'neutral-005', 'gear-006'] },
+    { id: 'valuable', icon: '💎', title: 'Valuable cards', blurb: 'Our top packs for your collection.',
+      note: 'Shadow and Gear are our top packs.',
+      packs: ['shadow-004', 'gear-006'] },
+  ],
 };
 
 // Every pack in the shop. To add one, copy a pack below and change it.
@@ -889,13 +926,47 @@ function boxHTML(p) {
 /* ---- pages ---- */
 const app = $('app');
 
+/* ---- "What are you looking for?" ---- */
+const goalOf = id => (SHOP.goals || []).find(g => g.id === id);
+let goal = null;
+try { goal = goalOf(sessionStorage.getItem('goal')); } catch (e) {}
+function setGoal(g) {
+  goal = g || null;
+  try { sessionStorage.setItem('goal', goal ? goal.id : ''); } catch (e) {}
+  if (!location.hash.match(/^#\/pack\//)) renderShop();
+}
+function askGoal() {
+  const w = $('welcome');
+  $('goalOpts').innerHTML = SHOP.goals.map(g => `
+    <button type="button" class="goal-opt" data-goal="${esc(g.id)}">
+      <span class="gi" aria-hidden="true">${g.icon}</span>
+      <span><b>${esc(g.title)}</b><small>${esc(g.blurb)}</small></span>
+    </button>`).join('');
+  $('goalOpts').onclick = e => {
+    const b = e.target.closest('[data-goal]');
+    if (b) { w.close(); setGoal(goalOf(b.dataset.goal)); }
+  };
+  $('goalSkip').onclick = () => { w.close(); setGoal(null); };
+  if (!w.open) w.showModal();
+  w.querySelector('.goal-opt').focus();
+}
+
 function renderShop() {
-  const list = shopProducts();
+  const all = shopProducts();
+  const picked = goal ? all.filter(p => goal.packs.includes(p.id)) : [];
+  const list = picked.length ? picked : all;
   app.innerHTML = `
     <section class="page-head">
-      <h1 class="logo-text">Shop packs</h1>
+      <h1 class="logo-text">${picked.length ? `Packs for you` : 'Shop packs'}</h1>
       <p>${esc(SHOP.tagline)}</p>
     </section>
+    ${picked.length ? `
+    <div class="goal-bar">
+      <span class="gi" aria-hidden="true">${goal.icon}</span>
+      <p><b>${esc(goal.title)}:</b> ${esc(goal.note)}</p>
+      <button type="button" id="goalChange">Change</button>
+      <button type="button" id="goalAll">Show all packs</button>
+    </div>` : ''}
     <section class="grid">
       ${list.map(p => `
         <a class="card" href="#/pack/${encodeURIComponent(p.id)}" style="${accentStyle(p)}">
@@ -906,6 +977,10 @@ function renderShop() {
           </div>
         </a>`).join('')}
     </section>`;
+  if (picked.length) {
+    $('goalChange').onclick = askGoal;
+    $('goalAll').onclick = () => setGoal(null);
+  }
 }
 
 function renderProduct(p) {
@@ -1351,6 +1426,11 @@ $('finishOrder').onclick = () => {
 window.addEventListener('hashchange', route);
 renderCart();
 route();
+if (SHOP.goals && SHOP.goals.length && !location.hash.match(/^#\/pack\//)) {   // not when opening a link to one pack
+  let asked = false;
+  try { asked = sessionStorage.getItem('goalAsked') === '1'; sessionStorage.setItem('goalAsked', '1'); } catch (e) {}
+  if (!asked) askGoal();
+}
 </script>
 </body>
 </html>
